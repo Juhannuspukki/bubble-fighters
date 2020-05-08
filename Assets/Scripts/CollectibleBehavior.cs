@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class CollectibleBehavior : MonoBehaviour
 {
-    
-    private GameEventHandler _eventHandler;
-    public GameObject playerObject;
     public bool defaultCollectible = true;
 
+    private GameEventHandler _eventHandler;
+    private GameObject _playerObject;
+    
     private void Awake()
     {
         _eventHandler = FindObjectOfType<GameEventHandler>();
-        playerObject = GameObject.FindWithTag("Player");
+        _playerObject = GameObject.FindWithTag("Player");
     }
     
     private void Start()
@@ -27,9 +27,12 @@ public class CollectibleBehavior : MonoBehaviour
     {
         // Move towards the player
         Vector3 position = transform.position;
-        /*
-        position = Vector2.MoveTowards(position, playerObject.transform.position, 2f * Time.deltaTime);
-        transform.position = position; */
+
+        if (Vector3.Distance(position, _playerObject.transform.position) < 2f)
+        {
+            position = Vector2.MoveTowards(position, _playerObject.transform.position, 10f * Time.deltaTime);
+            transform.position = position;
+        }
     }
 
     // Collect items and increase score
