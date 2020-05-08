@@ -46,11 +46,18 @@ public class PlayerShipBehavior : MonoBehaviour
         
         Vector3 closestCenter = _genericFunctions.GetClosestCircle(shipPosition);
 
-        if (Vector3.Distance(closestCenter, shipPosition) > 11.5f )
+        if (Vector3.Distance(closestCenter, shipPosition) > 10.5f )
         { 
             // Add force towards the center on edges
             Vector3 direction = closestCenter - shipPosition;
-            _rb.AddForce(direction * (movementForce/12), ForceMode2D.Impulse);
+            _rb.AddForce(direction * (movementForce/14), ForceMode2D.Impulse);
+        }
+        
+        if (Vector3.Distance(closestCenter, shipPosition) > 12f )
+        { 
+            // Add force towards the center on edges
+            Vector3 direction = closestCenter - shipPosition;
+            _rb.AddForce(direction * (0.006f), ForceMode2D.Impulse);
         }
 
     }

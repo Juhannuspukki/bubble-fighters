@@ -9,18 +9,25 @@ public class CollectibleBehavior : MonoBehaviour
 
     private GameEventHandler _eventHandler;
     private GameObject _playerObject;
+    private GenericFunctions _genericFunctions;
+    private Rigidbody2D _rb;
+    private Vector3 _parentBubbleCenter;
     
     private void Awake()
     {
         _eventHandler = FindObjectOfType<GameEventHandler>();
         _playerObject = GameObject.FindWithTag("Player");
+        _genericFunctions = FindObjectOfType<GenericFunctions>();
+        _rb = GetComponent<Rigidbody2D>();
+            
+        _parentBubbleCenter = _genericFunctions.GetClosestCircle(transform.position);
     }
     
     private void Start()
     {
         // Move to random direction after spawning
-        Vector3 impulse = new Vector3(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), 0);
-        GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+        Vector3 impulse = new Vector3(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(-3f, 3f), 0);
+        _rb.AddForce(impulse, ForceMode2D.Impulse);
     }
 
     private void FixedUpdate()
@@ -32,6 +39,19 @@ public class CollectibleBehavior : MonoBehaviour
         {
             position = Vector2.MoveTowards(position, _playerObject.transform.position, 10f * Time.deltaTime);
             transform.position = position;
+        }
+
+        // Destroy if player wanders too far
+        if (Vector3.Distance(_parentBubbleCenter, _playerObject.transform.position) > 13f)
+        {
+            Destroy(gameObject);
+        }
+        
+        // Add force towards the center of parent bubble on edges
+        if (Vector3.Distance(_parentBubbleCenter, position) > 11.5f )
+        { 
+            Vector3 direction = _parentBubbleCenter - position;
+            _rb.AddForce(direction * 0.1f, ForceMode2D.Impulse);
         }
     }
 
