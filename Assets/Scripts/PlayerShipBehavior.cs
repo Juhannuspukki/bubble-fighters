@@ -15,8 +15,10 @@ public class PlayerShipBehavior : MonoBehaviour
 
     public string activeShipModel;
     public GameObject activeWeaponModel;
+    public GameObject activeMissile;
     public GameObject activeProjectile;
 
+    public GameObject closestEnemy;
 
     void Awake()
     {
@@ -29,7 +31,8 @@ public class PlayerShipBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        FindClosestEnemy();
+            
         Vector3 shipPosition = transform.position;
         
         // Rotate
@@ -156,5 +159,34 @@ public class PlayerShipBehavior : MonoBehaviour
 
         activeProjectile = newProjectile;
 
+    }
+    
+    private void FindClosestEnemy() 
+    { 
+        // Find all game objects with tag Enemy
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemies.Length == 0)
+        {
+            closestEnemy = null;
+            return;
+        }
+        
+        // Initialize with infinite distance
+        float smallestDistance = Mathf.Infinity;
+        Vector3 position = transform.position; 
+   
+        // Iterate through enemies and find the closest one
+        foreach (GameObject enemy in enemies)
+        { 
+            Vector3 diff = (enemy.transform.position - position); 
+            float currentDistance = diff.sqrMagnitude; 
+            if (currentDistance < smallestDistance) 
+            { 
+                closestEnemy = enemy; 
+                smallestDistance = currentDistance; 
+            } 
+        }
+        
     }
 }

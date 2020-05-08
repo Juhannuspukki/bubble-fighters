@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PlayerProjectile
   - NpcProjectile
+  - Enemy
+  - PlayerMissile
   layers:
   - Default
   - TransparentFX

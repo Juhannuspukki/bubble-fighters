@@ -22,6 +22,8 @@ public class NpcDamageHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+        Vector3 pointOfCollision = other.gameObject.transform.position;
         // Only take damage from player weapons
         if (other.CompareTag("PlayerProjectile"))
         {
@@ -29,7 +31,16 @@ public class NpcDamageHandler : MonoBehaviour
             Destroy(other.gameObject);
             
             _eventHandler.npcGetHit.Play();
-            SpawnDamageParticles(other.gameObject.transform.position);
+            SpawnDamageParticles(pointOfCollision);
+        }
+        
+        if (other.CompareTag("PlayerMissile"))
+        {
+            health -= other.GetComponent<MissileBehavior>().damage;
+            Destroy(other.gameObject);
+            
+            _eventHandler.npcGetHit.Play();
+            SpawnDamageParticles(pointOfCollision);
         }
         
         if (health <= 0)
@@ -37,6 +48,8 @@ public class NpcDamageHandler : MonoBehaviour
             Destroy(gameObject);
             
             _eventHandler.explosion.Play();
+            
+            SpawnDamageParticles(pointOfCollision);
             SpawnCollectibleBubbles();
         }
     }
