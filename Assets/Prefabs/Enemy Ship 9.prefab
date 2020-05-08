@@ -355,7 +355,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 1
-  m_LinearDrag: 1.25
+  m_LinearDrag: 1.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -376,15 +376,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 30
-  collectibleSpawnCountMin: 8
-  collectibleSpawnCountMax: 12
+  collectibleSpawnCountMin: 4
+  collectibleSpawnCountMax: 6
   damageParticle: {fileID: 4795260967838807290, guid: c05ea69d5fbad49b7b98c4ed0ae025c3,
     type: 3}
   collectibleBubble: {fileID: 393786211089067485, guid: 9c7de52d4f3254777b1936a8f527b869,
     type: 3}
   specialCollectibleBubble: {fileID: 3768969236119225171, guid: b8d421bfa816149599d7d09689a416a8,
     type: 3}
-  dropsUpgrade: weapon_3
+  dropsUpgrade: projectile_2
 --- !u!114 &3769658034281320802
 MonoBehaviour:
   m_ObjectHideFlags: 0

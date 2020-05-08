@@ -71,7 +71,6 @@ public class PlayerShipBehavior : MonoBehaviour
 
         List<Vector3> hardPoints = new List<Vector3>{Vector3.zero};
         GameObject newShip = shipModels[0];
-        movementForce = 0.2f;
         
         switch (shipId)
         {
@@ -92,8 +91,13 @@ public class PlayerShipBehavior : MonoBehaviour
                 break;
             case "ship_3":
                 newShip = shipModels[3];
-                movementForce = 0.8f;
+                movementForce = 0.7f;
                 hardPoints = new List<Vector3>{new Vector3(1.1f, 0, 0)} ;
+                break;
+            case "ship_4":
+                newShip = shipModels[4];
+                movementForce = 0.8f;
+                hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
                 break;
         }
         
@@ -112,27 +116,11 @@ public class PlayerShipBehavior : MonoBehaviour
     
     public void UpdateWeapon(string weaponId)
     {
-        // Get the right gun
-        GameObject newWeapon = weaponModels[0];
+        string[] splittedString = weaponId.Split('_');
+        int modifier = Int32.Parse(splittedString[1]);
         
-        switch (weaponId)
-        {
-            case "weapon_0":
-                newWeapon = weaponModels[0];
-                break;
-            case "weapon_1":
-                newWeapon = weaponModels[1];
-                break;
-            case "weapon_2":
-                newWeapon = weaponModels[2];
-                break;
-            case "weapon_3":
-                newWeapon = weaponModels[3];
-                break;
-        }
-
         // Set it as active
-        activeWeaponModel = newWeapon;
+        activeWeaponModel = weaponModels[modifier];
         
         // Let UpdateShip handle the placing of new weapons
         UpdateShip(activeShipModel);
@@ -140,25 +128,10 @@ public class PlayerShipBehavior : MonoBehaviour
     
     public void UpdateProjectile(string projectileId)
     {
-        GameObject newProjectile = projectiles[0];
+        string[] splittedString = projectileId.Split('_');
+        int modifier = Int32.Parse(splittedString[1]);
         
-        switch (projectileId)
-        {
-            case "projectile_0":
-                newProjectile = projectiles[0];
-                break;
-            case "projectile_1":
-                newProjectile = projectiles[1];
-                break;
-            case "projectile_2":
-                newProjectile = projectiles[2];
-                break;
-            case "projectile_3":
-                newProjectile = projectiles[3];
-                break;
-        }
-
-        activeProjectile = newProjectile;
+        activeProjectile = projectiles[modifier];
 
     }
 }

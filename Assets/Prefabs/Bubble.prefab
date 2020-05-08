@@ -75,11 +75,23 @@ MonoBehaviour:
   - {fileID: 6608247724632617308, guid: d3adf525a97e649ea9fb2ea1e9b6fce9, type: 3}
   - {fileID: 1937566782655999314, guid: 235437564445c4ead939ab26c79152a6, type: 3}
   classFiveHostiles:
-  - {fileID: 6691544938041599650, guid: dc80b0d59ff804078b2b0b7daa850158, type: 3}
+  - {fileID: 3630676826572356829, guid: 3528cd2c6d99d4534bd769e543f8206a, type: 3}
+  - {fileID: 966604072983373407, guid: d136f1508754247d9b9525dc22e1f241, type: 3}
   - {fileID: 1891272232067703366, guid: aab8e685e948b4e4e9248a40d05b1770, type: 3}
-  classSixHostiles:
+  - {fileID: 8560219523098563335, guid: 6cc48aa56824248f18f5121a5f8de284, type: 3}
+  - {fileID: 8560219523098563335, guid: 6cc48aa56824248f18f5121a5f8de284, type: 3}
   - {fileID: 8859772260254101978, guid: c4ce134e258e0488dac59c7cd2c078d8, type: 3}
+  classSixHostiles:
+  - {fileID: 6427609019684660486, guid: 8578270974e1542cfb0bd43bfec48620, type: 3}
+  - {fileID: 6427609019684660486, guid: 8578270974e1542cfb0bd43bfec48620, type: 3}
   - {fileID: 1986392206269972344, guid: 0dcb4aa4bc5c34c52ba4d56d16cb2fa2, type: 3}
+  - {fileID: 1239457341006753498, guid: 1abefbf93c4834ab28dc9168fa38aa84, type: 3}
+  - {fileID: 7963745621713356604, guid: d42855a4008754821bba08b9cb22eb69, type: 3}
+  - {fileID: 7963745621713356604, guid: d42855a4008754821bba08b9cb22eb69, type: 3}
+  - {fileID: 1239457341006753498, guid: 1abefbf93c4834ab28dc9168fa38aa84, type: 3}
+  - {fileID: 1239457341006753498, guid: 1abefbf93c4834ab28dc9168fa38aa84, type: 3}
+  - {fileID: 5633570153107010115, guid: ec726fc8f86184f7ba404526274b59dd, type: 3}
+  - {fileID: 2681241497989066508, guid: 2e5e257ac49514013bb7deb7306a8b90, type: 3}
 --- !u!58 &58293829319705230
 CircleCollider2D:
   m_ObjectHideFlags: 0

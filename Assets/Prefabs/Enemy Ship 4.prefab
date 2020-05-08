@@ -339,7 +339,7 @@ MonoBehaviour:
     type: 3}
   specialCollectibleBubble: {fileID: 3768969236119225171, guid: b8d421bfa816149599d7d09689a416a8,
     type: 3}
-  dropsUpgrade: projectile_2
+  dropsUpgrade: none
 --- !u!114 &1158127194886715297
 MonoBehaviour:
   m_ObjectHideFlags: 0
