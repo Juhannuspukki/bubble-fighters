@@ -89,7 +89,7 @@ public class PlayerShipBehavior : MonoBehaviour
             case "ship_3":
                 newShip = shipModels[3];
                 movementForce = 0.8f;
-                hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
+                hardPoints = new List<Vector3>{new Vector3(1.1f, 0, 0)} ;
                 break;
         }
         
