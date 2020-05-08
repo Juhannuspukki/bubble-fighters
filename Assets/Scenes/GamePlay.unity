@@ -1275,7 +1275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 100, y: -25.22}
+  m_AnchoredPosition: {x: 100, y: -25.21997}
   m_SizeDelta: {x: 160, y: 420.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &536600435
@@ -1763,7 +1763,6 @@ MonoBehaviour:
   activeMissile: {fileID: 9174787581435533172, guid: 1c855bac24ee143458cd5b81bc3eacf7,
     type: 3}
   activeProjectile: {fileID: 0}
-  closestEnemy: {fileID: 0}
 --- !u!50 &1008114521
 Rigidbody2D:
   serializedVersion: 4
@@ -1905,6 +1904,7 @@ GameObject:
   - component: {fileID: 1152792855}
   - component: {fileID: 1152792856}
   - component: {fileID: 1152792857}
+  - component: {fileID: 1152792858}
   m_Layer: 0
   m_Name: GameEventHandler
   m_TagString: Untagged
@@ -1965,6 +1965,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 5878051232942216620, guid: 66ebd4da139c84d3a874898a7e330bef, type: 3}
+--- !u!114 &1152792858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152792854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1424165b1244742738faa58eeb7e8cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1169705060
 GameObject:
   m_ObjectHideFlags: 0
@@ -3048,7 +3060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -100, y: -25.223}
+  m_AnchoredPosition: {x: -100, y: -25.223022}
   m_SizeDelta: {x: 160, y: 420.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2110072781

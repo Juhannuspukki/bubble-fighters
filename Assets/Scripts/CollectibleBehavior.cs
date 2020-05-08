@@ -27,8 +27,9 @@ public class CollectibleBehavior : MonoBehaviour
     {
         // Move towards the player
         Vector3 position = transform.position;
+        /*
         position = Vector2.MoveTowards(position, playerObject.transform.position, 2f * Time.deltaTime);
-        transform.position = position;
+        transform.position = position; */
     }
 
     // Collect items and increase score

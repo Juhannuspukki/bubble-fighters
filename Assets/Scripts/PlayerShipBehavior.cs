@@ -7,6 +7,7 @@ public class PlayerShipBehavior : MonoBehaviour
 {
     private Camera _cam;
     private Rigidbody2D _rb;
+    private GenericFunctions _genericFunctions;
     
     public float movementForce = 0.5f;
     public GameObject[] shipModels;
@@ -17,11 +18,11 @@ public class PlayerShipBehavior : MonoBehaviour
     public GameObject activeWeaponModel;
     public GameObject activeMissile;
     public GameObject activeProjectile;
-
-    public GameObject closestEnemy;
-
+    
     void Awake()
     {
+        _genericFunctions = FindObjectOfType<GenericFunctions>();
+        
         _rb = GetComponent<Rigidbody2D>();
         _cam = Camera.main;
 
@@ -31,8 +32,6 @@ public class PlayerShipBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        FindClosestEnemy();
-            
         Vector3 shipPosition = transform.position;
         
         // Rotate
@@ -44,14 +43,9 @@ public class PlayerShipBehavior : MonoBehaviour
         // Move
         Vector3 impulse = new Vector3(Input.GetAxis("Horizontal") * movementForce, Input.GetAxis("Vertical") * movementForce, 0);
         _rb.AddForce(impulse, ForceMode2D.Impulse);
-
-        // Detemine where the center of the closest circle is
-        float closestCenterX = Convert.ToSingle(Math.Floor((shipPosition.x + 12.5) / 25) * 25f);
-        float closestCenterY = Convert.ToSingle(Math.Floor((shipPosition.y + 12.5) / 25) * 25f);
-
-        Vector3 closestCenter = new Vector3(closestCenterX, closestCenterY, 0);
         
-        
+        Vector3 closestCenter = _genericFunctions.GetClosestCircle(shipPosition);
+
         if (Vector3.Distance(closestCenter, shipPosition) > 11.5f )
         { 
             // Add force towards the center on edges
@@ -159,34 +153,5 @@ public class PlayerShipBehavior : MonoBehaviour
 
         activeProjectile = newProjectile;
 
-    }
-    
-    private void FindClosestEnemy() 
-    { 
-        // Find all game objects with tag Enemy
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        if (enemies.Length == 0)
-        {
-            closestEnemy = null;
-            return;
-        }
-        
-        // Initialize with infinite distance
-        float smallestDistance = Mathf.Infinity;
-        Vector3 position = transform.position; 
-   
-        // Iterate through enemies and find the closest one
-        foreach (GameObject enemy in enemies)
-        { 
-            Vector3 diff = (enemy.transform.position - position); 
-            float currentDistance = diff.sqrMagnitude; 
-            if (currentDistance < smallestDistance) 
-            { 
-                closestEnemy = enemy; 
-                smallestDistance = currentDistance; 
-            } 
-        }
-        
     }
 }
