@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class RotateWeapon : MonoBehaviour
 {
-    private GameObject _playerObject;
+    private PlayerShipBehavior _playerShip;
+    private Vector3 _parentCenter;
     
     // Start is called before the first frame update
     void Awake()
     {
-        _playerObject = GameObject.FindWithTag("Player");
+        _playerShip = FindObjectOfType<PlayerShipBehavior>();
+
+        _parentCenter = FindObjectOfType<GenericFunctions>().GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If in different bubble or out of range do nothing
+        if (_playerShip.shipLocation != _parentCenter) return;
+        if (!_playerShip.shipIsWithinEngagementRange) return;
         
         // Point weapon towards player
-        Vector3 targ = _playerObject.transform.position;
+        Vector3 targ = _playerShip.transform.position;
         targ.z = 0f;
  
         Vector3 objectPos = transform.position;

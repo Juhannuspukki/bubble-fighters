@@ -8,32 +8,34 @@ public class NpcTurretBehavior : MonoBehaviour
 {
     public GameObject projectile;
     public float fireDelay = 1f;
+    
     private float _cooldownTimer = 2f;
     private Vector3 _parentCenter;
-    private GameObject _playerObject;
+    private PlayerShipBehavior _playerShip;
 
     private void Awake()
     {
-        _playerObject = GameObject.FindWithTag("Player");
-        
-        float closestCenterX = Convert.ToSingle(Math.Floor((transform.position.x + 12.5) / 25) * 25f);
-        float closestCenterY = Convert.ToSingle(Math.Floor((transform.position.y + 12.5) / 25) * 25f);
-
-        Vector3 closestCenter = new Vector3(closestCenterX, closestCenterY, 0);
-        
-        _parentCenter = closestCenter;
+        // Randomize delay before firing
+        _cooldownTimer = UnityEngine.Random.Range(2.5f, 1.0f); 
+        _playerShip = FindObjectOfType<PlayerShipBehavior>();
+        _parentCenter = FindObjectOfType<GenericFunctions>().GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If in different bubble or out of range do nothing
+        if (_playerShip.shipLocation != _parentCenter) return;
+        if (!_playerShip.shipIsWithinEngagementRange) return;
+
         _cooldownTimer -= Time.deltaTime;
 
-        if (_cooldownTimer <= 0 && Vector3.Distance(_parentCenter, _playerObject.transform.position) < 12f)
-        {
-            _cooldownTimer = fireDelay;
-            Fire();
-        }
+        // If cooldowntimer has not expired yet, do nothing
+        if (_cooldownTimer > 0) return;
+        
+        // Else fire weapon
+        _cooldownTimer = fireDelay;
+        Fire();
     }
     
     void Fire()

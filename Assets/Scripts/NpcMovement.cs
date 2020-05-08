@@ -10,8 +10,6 @@ public class NpcMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector3 _parentCenter;
 
-
-
     // Start is called before the first frame update
     void Awake()
     {
