@@ -42,7 +42,7 @@ public class CollectibleBehavior : MonoBehaviour
         }
 
         // Destroy if player wanders too far
-        if (Vector3.Distance(_parentBubbleCenter, _playerObject.transform.position) > 13f)
+        if (Vector3.Distance(_parentBubbleCenter, _playerObject.transform.position) > 16f)
         {
             Destroy(gameObject);
         }
