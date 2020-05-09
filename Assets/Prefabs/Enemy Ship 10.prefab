@@ -489,8 +489,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 40
-  collectibleSpawnCountMin: 8
-  collectibleSpawnCountMax: 12
+  collectibleSpawnCountMin: 3
+  collectibleSpawnCountMax: 7
   damageParticle: {fileID: 4795260967838807290, guid: c05ea69d5fbad49b7b98c4ed0ae025c3,
     type: 3}
   collectibleBubble: {fileID: 393786211089067485, guid: 9c7de52d4f3254777b1936a8f527b869,
