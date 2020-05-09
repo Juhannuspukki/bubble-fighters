@@ -30,10 +30,19 @@ public struct ShipUpgrade
     }
 }
 
-public class UpgradeManager : MonoBehaviour
+public class PlayerUpgradeManager : MonoBehaviour
 {
     private PlayerShipBehavior _playerShipBehavior;
     private GameEventHandler _gameEventHandler;
+    
+    public GameObject[] shipModels;
+    public GameObject[] weaponModels;
+    public GameObject[] projectiles;
+
+    public int activeShipModel;
+    public GameObject activeWeaponModel;
+    public GameObject activeMissile;
+    public GameObject activeProjectile;
 
     public readonly List<string> InstalledUpgrades = new List<string>();
     public readonly List<ShipUpgrade> UpgradeData = new List<ShipUpgrade>{
@@ -120,26 +129,32 @@ public class UpgradeManager : MonoBehaviour
     {
         _playerShipBehavior = FindObjectOfType<PlayerShipBehavior>();
         _gameEventHandler = FindObjectOfType<GameEventHandler>();
+        
+        activeWeaponModel = weaponModels[0];
+        activeProjectile = projectiles[0];
     }
 
     public void PurchaseUpgrade(ShipUpgrade upgrade)
     {
+        
+        int upgradeId = Int32.Parse(upgrade.UpgradeId.Split('_')[1]);
+        
         switch (upgrade.Modifier)
         {
             case "weapon":
-                _playerShipBehavior.UpdateWeapon(upgrade.UpgradeId);
+                UpdateWeapon(upgradeId);
                 break;
             
             case "projectile":
-                _playerShipBehavior.UpdateProjectile(upgrade.UpgradeId);
+                UpdateProjectile(upgradeId);
                 break;
             
             case "ship":
-                _playerShipBehavior.UpdateShip(upgrade.UpgradeId);
+                UpdateShip(upgradeId);
                 break;
             
             case "defense":
-                _playerShipBehavior.UpdateShip(upgrade.UpgradeId);
+                UpdateShip(upgradeId);
                 break;
         }
         
@@ -162,21 +177,21 @@ public class UpgradeManager : MonoBehaviour
         string[] splittedString = latestUpgradeId.Split('_');
         string modifier = splittedString[0];
 
-        string downgradeToItemId = modifier + "_" + (Int32.Parse(splittedString[1]) - 1);
+        int downgradeToItemId = Int32.Parse(splittedString[1]) - 1;
 
         // Replace the item with the one that is one tier worse
         switch (modifier)
         {
             case "weapon":
-                _playerShipBehavior.UpdateWeapon(downgradeToItemId);
+                UpdateWeapon(downgradeToItemId);
                 break;
             
             case "projectile":
-                _playerShipBehavior.UpdateProjectile(downgradeToItemId);
+                UpdateProjectile(downgradeToItemId);
                 break;
             
             case "ship":
-                _playerShipBehavior.UpdateShip(downgradeToItemId);
+                UpdateShip(downgradeToItemId);
                 break;
         }
         
@@ -185,5 +200,69 @@ public class UpgradeManager : MonoBehaviour
         
         // Remove it from installed upgrades
         InstalledUpgrades.RemoveAt(InstalledUpgrades.Count - 1);
+    }
+    
+    public void UpdateShip(int shipId)
+    {
+        // Destroy all ship and weapon models
+        foreach (Transform child in transform) {
+            Destroy(child.gameObject);
+        }
+
+        List<Vector3> hardPoints = new List<Vector3>{Vector3.zero};
+        
+        // Adjust movementforce and weapon hardpoints of the ship object
+        switch (shipId)
+        {
+            case 0:
+                _playerShipBehavior.movementForce = 0.4f;
+                hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
+                break;
+            case 1:
+                _playerShipBehavior.movementForce = 0.6f;
+                hardPoints = new List<Vector3>{new Vector3(-0.1f, 0, 0)} ;
+                break;
+            case 2:
+                _playerShipBehavior.movementForce = 0.7f;
+                hardPoints = new List<Vector3>{new Vector3(0.2f, 0, 0)} ;
+                break;
+            case 3:
+                _playerShipBehavior.movementForce = 0.7f;
+                hardPoints = new List<Vector3>{new Vector3(0.55f, 0, 0)} ;
+                break;
+            case 4:
+                _playerShipBehavior.movementForce = 0.8f;
+                hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
+                break;
+        }
+        
+        // Create new ship model
+        GameObject ship = Instantiate(shipModels[shipId], transform.position , transform.rotation);
+        ship.transform.parent = gameObject.transform;
+
+        // Re-create weapons
+        foreach (Vector3 hardpointLocation in hardPoints)
+        {
+            GameObject weapon = Instantiate(activeWeaponModel, transform.position, transform.rotation);
+            weapon.transform.parent = gameObject.transform;
+            weapon.transform.localPosition = hardpointLocation;
+        }
+
+        activeShipModel = shipId;
+    }
+    
+    private void UpdateWeapon(int weaponId)
+    {
+        // Make weapon active
+        activeWeaponModel = weaponModels[weaponId];
+        
+        // Let UpdateShip handle the placing of new weapons
+        UpdateShip(activeShipModel);
+    }
+    
+    private void UpdateProjectile(int projectileId)
+    {
+        // Make new projectile active
+        activeProjectile = projectiles[projectileId];
     }
 }

@@ -1716,6 +1716,7 @@ GameObject:
   - component: {fileID: 1008114522}
   - component: {fileID: 1008114521}
   - component: {fileID: 1008114520}
+  - component: {fileID: 1008114524}
   - component: {fileID: 1008114523}
   m_Layer: 8
   m_Name: Ship Controller
@@ -1736,28 +1737,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa4e41f18d434e1b9b87989247398e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementForce: 0.5
-  shipModels:
-  - {fileID: 4969227419282926062, guid: 8f80eabe71847466da90e1051fab0891, type: 3}
-  - {fileID: 9215235880203602049, guid: ec31b97e493954f3eaa34b534f0bd79b, type: 3}
-  - {fileID: 8218976993669382284, guid: f4eafa78dc3f840a2bb96d4478d08e40, type: 3}
-  - {fileID: 6587771750926712864, guid: cc4457df6b9944f708e48c6c1a242f7c, type: 3}
-  - {fileID: 4962799850658120874, guid: 6c7e1dd4e96974898afa9688350b023b, type: 3}
-  weaponModels:
-  - {fileID: 8785075241981564957, guid: 7b72964ee87d543f18d307b1621ab644, type: 3}
-  - {fileID: 9096429815654697334, guid: 6a9b5d859c8bc4336aec6964f95de245, type: 3}
-  - {fileID: 7915329052540299995, guid: 02c73966b7e7949b088bebb5c8ea0c6e, type: 3}
-  - {fileID: 5351568966292899276, guid: d4f4e7eda915f482db269d178c724cb2, type: 3}
-  projectiles:
-  - {fileID: 4243139836459896284, guid: c1a27b0b697344aef9e88176c80249c5, type: 3}
-  - {fileID: 6088391534864810877, guid: 5b45371216ff6414ea6e95e03034b733, type: 3}
-  - {fileID: 4658738697745841295, guid: 99e18b2a5d16843feb75ae39270f10b4, type: 3}
-  - {fileID: 3131861111056030859, guid: 757bb9c72dc3148a8a5679ac448a6e44, type: 3}
-  activeShipModel: 
-  activeWeaponModel: {fileID: 0}
-  activeMissile: {fileID: 9174787581435533172, guid: 1c855bac24ee143458cd5b81bc3eacf7,
-    type: 3}
-  activeProjectile: {fileID: 0}
+  shipLocation: {x: 0, y: 0, z: 0}
+  shipIsWithinEngagementRange: 0
+  movementForce: 0.4
 --- !u!50 &1008114521
 Rigidbody2D:
   serializedVersion: 4
@@ -1811,6 +1793,41 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!114 &1008114524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008114519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd41a9177f0405fbea88f7d64ead28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipModels:
+  - {fileID: 4969227419282926062, guid: 8f80eabe71847466da90e1051fab0891, type: 3}
+  - {fileID: 9215235880203602049, guid: ec31b97e493954f3eaa34b534f0bd79b, type: 3}
+  - {fileID: 8218976993669382284, guid: f4eafa78dc3f840a2bb96d4478d08e40, type: 3}
+  - {fileID: 6587771750926712864, guid: cc4457df6b9944f708e48c6c1a242f7c, type: 3}
+  - {fileID: 4962799850658120874, guid: 6c7e1dd4e96974898afa9688350b023b, type: 3}
+  weaponModels:
+  - {fileID: 8785075241981564957, guid: 7b72964ee87d543f18d307b1621ab644, type: 3}
+  - {fileID: 9096429815654697334, guid: 6a9b5d859c8bc4336aec6964f95de245, type: 3}
+  - {fileID: 7915329052540299995, guid: 02c73966b7e7949b088bebb5c8ea0c6e, type: 3}
+  - {fileID: 5351568966292899276, guid: d4f4e7eda915f482db269d178c724cb2, type: 3}
+  projectiles:
+  - {fileID: 4243139836459896284, guid: c1a27b0b697344aef9e88176c80249c5, type: 3}
+  - {fileID: 6088391534864810877, guid: 5b45371216ff6414ea6e95e03034b733, type: 3}
+  - {fileID: 4658738697745841295, guid: 99e18b2a5d16843feb75ae39270f10b4, type: 3}
+  - {fileID: 3131861111056030859, guid: 757bb9c72dc3148a8a5679ac448a6e44, type: 3}
+  activeShipModel: 0
+  activeWeaponModel: {fileID: 8785075241981564957, guid: 7b72964ee87d543f18d307b1621ab644,
+    type: 3}
+  activeMissile: {fileID: 9174787581435533172, guid: 1c855bac24ee143458cd5b81bc3eacf7,
+    type: 3}
+  activeProjectile: {fileID: 4243139836459896284, guid: c1a27b0b697344aef9e88176c80249c5,
+    type: 3}
 --- !u!1 &1029334750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,7 +1951,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointLabel: {fileID: 1459978343}
-  unlockedUpgrades: []
   pauseMenu: {fileID: 195516669}
   upgradeButton: {fileID: 5933441670244130257, guid: e94fabb01313c426a81cb78a07c458d9,
     type: 3}
@@ -1942,11 +1958,12 @@ MonoBehaviour:
     type: 3}
   availableUpgradeView: {fileID: 1485082766}
   installedUpgradeView: {fileID: 598280109}
-  shipController: {fileID: 1008114519}
   npcGetHit: {fileID: 389953327}
   playerGetHit: {fileID: 945937823}
   playerWeapon: {fileID: 1256256919}
   explosion: {fileID: 519500479}
+  pointCount: 0
+  unlockedUpgrades: []
 --- !u!114 &1152792857
 MonoBehaviour:
   m_ObjectHideFlags: 0

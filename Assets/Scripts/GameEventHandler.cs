@@ -23,12 +23,12 @@ public class GameEventHandler : MonoBehaviour
     public List<string> unlockedUpgrades;
 
     private bool _isPaused = false;
-    private UpgradeManager _upgradeManager;
+    private PlayerUpgradeManager _upgradeManager;
 
 
     public void Awake()
     {
-        _upgradeManager = FindObjectOfType<UpgradeManager>();
+        _upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
     }
 
     public void PauseGame()
