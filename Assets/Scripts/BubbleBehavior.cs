@@ -122,12 +122,12 @@ public class BubbleBehavior : MonoBehaviour
         }
         else
         {
-            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 0, 10, 0, 10, 10, 75, 75 };
+            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 0, 20, 10, 50, 50 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
             
-            int[] neutralChances = { 50, 10, 50, 20, 0 };
+            int[] neutralChances = { 10, 10, 50, 20, 10 };
             int maxNeutrals = UnityEngine.Random.Range(2, 4);
 
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);

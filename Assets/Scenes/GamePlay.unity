@@ -1739,7 +1739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipLocation: {x: 0, y: 0, z: 0}
   shipIsWithinEngagementRange: 0
-  movementForce: 0.3
+  movementForce: 0.25
 --- !u!50 &1008114521
 Rigidbody2D:
   serializedVersion: 4
@@ -1821,6 +1821,7 @@ MonoBehaviour:
   - {fileID: 6088391534864810877, guid: 5b45371216ff6414ea6e95e03034b733, type: 3}
   - {fileID: 4658738697745841295, guid: 99e18b2a5d16843feb75ae39270f10b4, type: 3}
   - {fileID: 3131861111056030859, guid: 757bb9c72dc3148a8a5679ac448a6e44, type: 3}
+  activeDamageChance: 1
   activeShipModel: 0
   activeWeaponModel: {fileID: 8785075241981564957, guid: 7b72964ee87d543f18d307b1621ab644,
     type: 3}

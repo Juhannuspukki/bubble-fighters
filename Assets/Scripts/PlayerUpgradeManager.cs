@@ -80,7 +80,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             "projectile_2", 
             "Exocet projectiles", 
             "Improves projectile damage and speed.", 
-            40,
+            60,
             new List<string>{"projectile_1"}),
         new ShipUpgrade(
             "projectile",
@@ -101,14 +101,14 @@ public class PlayerUpgradeManager : MonoBehaviour
             "ship_2", 
             "Advanced Fighter", 
             "Bubble fighter with improved handling.", 
-            40,
+            100,
             new List<string>{"ship_1"}),
         new ShipUpgrade(
             "ship",
             "ship_3", 
             "Talon fighter", 
             "The best bubble fighter bubbles can buy.", 
-            200,
+            400,
             new List<string>{"ship_1", "ship_2"}),
         new ShipUpgrade(
             "defense",
@@ -122,7 +122,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             "defense_2", 
             "Evasion II", 
             "25% chance to not take damage when you get hit.", 
-            100,
+            200,
             new List<string>{"defense_1"}),
     };
 
@@ -214,15 +214,15 @@ public class PlayerUpgradeManager : MonoBehaviour
         switch (shipId)
         {
             case 0:
-                _playerShipBehavior.movementForce = 0.4f;
+                _playerShipBehavior.movementForce = 0.25f;
                 hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
                 break;
             case 1:
-                _playerShipBehavior.movementForce = 0.45f;
+                _playerShipBehavior.movementForce = 0.35f;
                 hardPoints = new List<Vector3>{new Vector3(-0.1f, 0, 0)} ;
                 break;
             case 2:
-                _playerShipBehavior.movementForce = 0.5f;
+                _playerShipBehavior.movementForce = 0.45f;
                 hardPoints = new List<Vector3>{new Vector3(0.2f, 0, 0)} ;
                 break;
             case 3:
@@ -273,7 +273,7 @@ public class PlayerUpgradeManager : MonoBehaviour
                 activeDamageChance = 1.0f;
                 break;
             case 1:
-                activeDamageChance = 0.95f;
+                activeDamageChance = 0.9f;
                 break;
             case 2:
                 activeDamageChance = 0.75f;
