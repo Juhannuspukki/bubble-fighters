@@ -39,6 +39,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public GameObject[] weaponModels;
     public GameObject[] projectiles;
 
+    public float activeDamageChance = 1.0f;
     public int activeShipModel;
     public GameObject activeWeaponModel;
     public GameObject activeMissile;
@@ -144,17 +145,14 @@ public class PlayerUpgradeManager : MonoBehaviour
             case "weapon":
                 UpdateWeapon(upgradeId);
                 break;
-            
             case "projectile":
                 UpdateProjectile(upgradeId);
                 break;
-            
             case "ship":
                 UpdateShip(upgradeId);
                 break;
-            
             case "defense":
-                UpdateShip(upgradeId);
+                UpdateDefense(upgradeId);
                 break;
         }
         
@@ -185,13 +183,14 @@ public class PlayerUpgradeManager : MonoBehaviour
             case "weapon":
                 UpdateWeapon(downgradeToItemId);
                 break;
-            
             case "projectile":
                 UpdateProjectile(downgradeToItemId);
                 break;
-            
             case "ship":
                 UpdateShip(downgradeToItemId);
+                break;
+            case "defense":
+                UpdateDefense(downgradeToItemId);
                 break;
         }
         
@@ -259,10 +258,27 @@ public class PlayerUpgradeManager : MonoBehaviour
         // Let UpdateShip handle the placing of new weapons
         UpdateShip(activeShipModel);
     }
-    
+
     private void UpdateProjectile(int projectileId)
     {
         // Make new projectile active
         activeProjectile = projectiles[projectileId];
+    }
+    
+    private void UpdateDefense(int defenseId)
+    {
+        switch (defenseId)
+        {
+            case 0:
+                activeDamageChance = 1.0f;
+                break;
+            case 1:
+                activeDamageChance = 0.95f;
+                break;
+            case 2:
+                activeDamageChance = 0.75f;
+                break;
+            
+        }
     }
 }

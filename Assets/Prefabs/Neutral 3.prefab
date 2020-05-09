@@ -234,7 +234,7 @@ MonoBehaviour:
     type: 3}
   specialCollectibleBubble: {fileID: 393786211089067485, guid: 9c7de52d4f3254777b1936a8f527b869,
     type: 3}
-  dropsUpgrade: none
+  dropsUpgrade: defense_1
 --- !u!114 &114180119520484012
 MonoBehaviour:
   m_ObjectHideFlags: 0
