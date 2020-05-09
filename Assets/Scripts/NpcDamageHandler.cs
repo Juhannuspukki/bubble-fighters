@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class NpcDamageHandler : MonoBehaviour
 {
-    private GameEventHandler _eventHandler;
-    
     public float health = 5;
     public int collectibleSpawnCountMin = 2;
     public int collectibleSpawnCountMax = 5;
@@ -15,9 +13,14 @@ public class NpcDamageHandler : MonoBehaviour
     public GameObject specialCollectibleBubble;
     public string dropsUpgrade = "none";
     
+    private GameEventHandler _eventHandler;
+    private Architect _architect;
+
+    
     private void Awake()
     {
         _eventHandler = FindObjectOfType<GameEventHandler>();
+        _architect = FindObjectOfType<Architect>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -51,6 +54,13 @@ public class NpcDamageHandler : MonoBehaviour
             
             SpawnDamageParticles(pointOfCollision);
             SpawnCollectibleBubbles();
+
+            // When child count reaches 1, the parent bubble is in fact empty
+            // No, I don't think it makes sense either
+            if (gameObject.transform.parent.childCount == 1)
+            {
+                _architect.ConquerBubble(transform.parent.position);
+            }
         }
     }
 

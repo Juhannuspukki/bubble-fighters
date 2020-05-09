@@ -8,6 +8,7 @@ public class Architect : MonoBehaviour
     public GameObject bubble;
     private GenericFunctions _genericFunctions;
     private readonly List<Vector3> _bubbleLocations = new List<Vector3>();
+    private readonly List<Vector3> _conqueredBubbleLocations = new List<Vector3>();
     
     // Start is called before the first frame update
     private void Awake()
@@ -28,6 +29,8 @@ public class Architect : MonoBehaviour
                 Instantiate(bubble, newBubbleLocation, Quaternion.identity);
             }
         }
+        
+        _conqueredBubbleLocations.Add(Vector3.zero);
     }
 
     public void GenerateSurroundingBubbles(Vector3 initialBubbleCoords)
@@ -53,5 +56,31 @@ public class Architect : MonoBehaviour
                 _bubbleLocations.Add(location);
             }
         }
+    }
+
+    public void ConquerBubble(Vector3 bubbleCoordinates)
+    {
+        _conqueredBubbleLocations.Add(bubbleCoordinates);
+    }
+    
+    public Vector3 GetClosestConqueredBubble(Vector3 shipCoordinates)
+    {
+        // Initialize with infinite distance
+        float smallestDistance = Mathf.Infinity;
+        Vector3 closestConqueredBubble = Vector3.zero;
+   
+        // Iterate through all conquered bubbles and find the closest one
+        foreach (Vector3 bubbleLocation in _conqueredBubbleLocations)
+        {
+            float currentDistance = Vector3.Distance(bubbleLocation, shipCoordinates);
+            
+            if (currentDistance < smallestDistance)
+            {
+                closestConqueredBubble = bubbleLocation;
+                smallestDistance = currentDistance; 
+            } 
+        }
+
+        return closestConqueredBubble;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
-
 
 public class GameEventHandler : MonoBehaviour
 {
@@ -24,11 +23,13 @@ public class GameEventHandler : MonoBehaviour
 
     private bool _isPaused = false;
     private PlayerUpgradeManager _upgradeManager;
+    private Architect _architect;
 
 
     public void Awake()
     {
         _upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
+        _architect = FindObjectOfType<Architect>();
     }
 
     public void PauseGame()
@@ -136,22 +137,44 @@ public class GameEventHandler : MonoBehaviour
     
     public void RemovePoints(int points)
     {
-        if (pointCount <= 0 && _upgradeManager.InstalledUpgrades.Count == 0)
+        if (pointCount - points >= 0)
         {
+            pointCount -= points;
+            pointLabel.text = pointCount.ToString();
             return;
-        };
+        }
 
-        if (pointCount <= 0)
+        // Only executes if point count would be < 0 and there are some upgrades installed
+        if (_upgradeManager.InstalledUpgrades.Count != 0)
         {
             _upgradeManager.DeleteUpgrade();
+            
+            pointCount -= points;
+            pointLabel.text = pointCount.ToString();
+            return;
         }
         
-        pointCount -= points;
-
-        if (pointCount < 0)
-        {
-            pointCount = 0;
-        }
-        pointLabel.text = pointCount.ToString();
+        // Only executes if the point count would be < 0 and there are no upgrades installed
+        // If player has run out of health, move to closest conquered bubble
+        Vector3 closestConqueredBubble = _architect.GetClosestConqueredBubble(_upgradeManager.transform.position);
+        StartCoroutine(MovePlayer(closestConqueredBubble));
+        
+        pointCount = 0;
     }
+
+    IEnumerator MovePlayer(Vector3 closestConqueredBubble)
+    {
+        while(true)
+        {
+            float distanceToTarget = Vector3.Distance(_upgradeManager.transform.position, closestConqueredBubble);
+            _upgradeManager.transform.position = Vector3.MoveTowards(_upgradeManager.transform.position, closestConqueredBubble, 50f * Time.deltaTime);
+
+            if (distanceToTarget < 1)
+            {
+                break;
+            }
+            
+            yield return new WaitForFixedUpdate();
+        }
+    } 
 }
