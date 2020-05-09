@@ -5,17 +5,12 @@ using UnityEngine;
 
 public class BubbleBehavior : MonoBehaviour
 {
-    public GameObject[] classOneHostiles;
-    public GameObject[] classTwoHostiles;
-    public GameObject[] classThreeHostiles;
-    public GameObject[] classFourHostiles;
-    public GameObject[] classFiveHostiles;
-    public GameObject[] classSixHostiles;
-
+    public GameObject[] neutralPool;
+    public GameObject[] hostilePool;
+    
     private Architect _architect;
-    private bool _hasSpawnedEnemies = false;
     private float _distanceFromCenter;
-    private GameObject[] _selectedEnemies;
+    private readonly List<GameObject> _selectedEnemies = new List<GameObject>();
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -49,7 +44,7 @@ public class BubbleBehavior : MonoBehaviour
         _architect = FindObjectOfType<Architect>();
         _distanceFromCenter = Vector3.Distance(transform.position, Vector3.zero);
 
-        DetermineEnemyClass();
+        DetermineEnemyClasses();
         SpawnEnemies();
     }
 
@@ -59,64 +54,104 @@ public class BubbleBehavior : MonoBehaviour
         
         // Spawn enemies if player is close enough
         // But not on the starting bubble
-        if (_hasSpawnedEnemies == false && position != Vector3.zero)
+        if (position == Vector3.zero) return;
+        
+        
+        foreach (GameObject enemyShip in _selectedEnemies)
         {
-            int numberOfBubbles;
+            // Randomize spawn position within bubble
+            float randomDistanceX = position.x + UnityEngine.Random.Range(-5, 5);
+            float randomDistanceY = position.y + UnityEngine.Random.Range(-5, 5);
             
-            if (_distanceFromCenter < 50)
-            {
-                numberOfBubbles = UnityEngine.Random.Range(3, 6);
-            }
-            else
-            {
-                numberOfBubbles = UnityEngine.Random.Range(4, 6);
-            }
-
-            for (int i = 0; i < numberOfBubbles; i++)
-            {
-                // Randomize spawn position within bubble
-                float randomDistanceX = position.x + UnityEngine.Random.Range(-5, 5);
-                float randomDistanceY = position.y + UnityEngine.Random.Range(-5, 5);
-            
-                Vector3 spawnPosition = new Vector3(randomDistanceX, randomDistanceY, 0);
+            Vector3 spawnPosition = new Vector3(randomDistanceX, randomDistanceY, 0);
                 
-                GameObject randomSprite = _selectedEnemies[UnityEngine.Random.Range(0, _selectedEnemies.Length)];
-                
-                GameObject clone = Instantiate(randomSprite, spawnPosition, Quaternion.identity);
-                clone.transform.parent = gameObject.transform;
-                clone.gameObject.SetActive(false);
-            }
-
-            _hasSpawnedEnemies = true;
+            GameObject clone = Instantiate(enemyShip, spawnPosition, Quaternion.identity);
+            clone.transform.parent = gameObject.transform;
+            clone.gameObject.SetActive(false);
         }
+
     }
 
-    private void DetermineEnemyClass()
+    private void DetermineEnemyClasses()
     {
 
-        if (_distanceFromCenter < 50)
+        if (_distanceFromCenter < 60)
         {
-            _selectedEnemies = classOneHostiles;
+            int[] neutralChances = { 100, 75, 15, 0, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(4, 6);
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
-        else if (_distanceFromCenter < 100)
+        
+        else if (_distanceFromCenter < 90)
         {
-            _selectedEnemies = classTwoHostiles;
+            int[] enemyChances = { 100, 100, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            
+            FormEnemyPool(enemyChances, maxEnemies, hostilePool);
+            
+            int[] neutralChances = { 25, 25, 25, 0, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(1, 3);
+
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
+        
+        else if (_distanceFromCenter < 120)
+        {
+            int[] enemyChances = { 0, 0, 25, 25, 33, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            
+            FormEnemyPool(enemyChances, maxEnemies, hostilePool);
+            
+            int[] neutralChances = { 50, 10, 50, 0, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(2, 4);
+
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
+        }
+        
         else if (_distanceFromCenter < 150)
         {
-            _selectedEnemies = classThreeHostiles;
-        }
-        else if (_distanceFromCenter < 200)
-        {
-            _selectedEnemies =  classFourHostiles;
-        }
-        else if (_distanceFromCenter < 250)
-        {
-            _selectedEnemies = classFiveHostiles;
+            int[] enemyChances = { 5, 0, 0, 0, 0, 50, 30, 70, 10, 5, 20, 0, 0, 0, 0 };
+            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            
+            FormEnemyPool(enemyChances, maxEnemies, hostilePool);
+            
+            int[] neutralChances = { 50, 0, 0, 50, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(2, 4);
+
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
         else
         {
-            _selectedEnemies = classSixHostiles;
+            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 0, 10, 0, 10, 10, 75, 75 };
+            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            
+            FormEnemyPool(enemyChances, maxEnemies, hostilePool);
+            
+            int[] neutralChances = { 50, 10, 50, 20, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(2, 4);
+
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
+        }
+    }
+
+    private void FormEnemyPool(int[] probabilities, int maxShips, GameObject[] pool)
+    {
+        int spawnedCount = 0;
+        while (true)
+        {
+            for(int i = 0; i < probabilities.Length; i ++)
+            {
+                if (UnityEngine.Random.Range(100, 0) < probabilities[i])
+                {
+                    _selectedEnemies.Add(pool[i]);
+                    spawnedCount++;
+
+                }
+                if (spawnedCount >= maxShips)
+                {
+                    return;
+                } 
+            }
         }
     }
 }

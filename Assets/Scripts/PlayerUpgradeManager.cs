@@ -218,19 +218,19 @@ public class PlayerUpgradeManager : MonoBehaviour
                 hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
                 break;
             case 1:
-                _playerShipBehavior.movementForce = 0.6f;
+                _playerShipBehavior.movementForce = 0.45f;
                 hardPoints = new List<Vector3>{new Vector3(-0.1f, 0, 0)} ;
                 break;
             case 2:
-                _playerShipBehavior.movementForce = 0.7f;
+                _playerShipBehavior.movementForce = 0.5f;
                 hardPoints = new List<Vector3>{new Vector3(0.2f, 0, 0)} ;
                 break;
             case 3:
-                _playerShipBehavior.movementForce = 0.7f;
+                _playerShipBehavior.movementForce = 0.6f;
                 hardPoints = new List<Vector3>{new Vector3(0.55f, 0, 0)} ;
                 break;
             case 4:
-                _playerShipBehavior.movementForce = 0.8f;
+                _playerShipBehavior.movementForce = 0.7f;
                 hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
                 break;
         }
