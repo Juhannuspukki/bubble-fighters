@@ -40,11 +40,11 @@ public class PlayerShipBehavior : MonoBehaviour
         Vector3 impulse = new Vector3(Input.GetAxis("Horizontal") * movementForce, Input.GetAxis("Vertical") * movementForce, 0);
         _rb.AddForce(impulse, ForceMode2D.Impulse);
 
-        if (Vector3.Distance(shipLocation, shipPosition) > 10.5f )
+        if (Vector3.Distance(shipLocation, shipPosition) > 12f )
         { 
             // Add force towards the center on edges
             Vector3 direction = shipLocation - shipPosition;
-            _rb.AddForce(direction * (movementForce/14), ForceMode2D.Impulse);
+            _rb.AddForce(direction * (movementForce/15.5f), ForceMode2D.Impulse);
         }
 
     }

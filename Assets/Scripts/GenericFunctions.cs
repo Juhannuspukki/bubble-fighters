@@ -8,8 +8,8 @@ public class GenericFunctions : MonoBehaviour
     public Vector3 GetClosestCircle(Vector3 position)
     {
         // Detemine where the center of the closest circle is
-        float closestCenterX = Convert.ToSingle(Math.Floor((position.x + 12.5) / 25) * 25f);
-        float closestCenterY = Convert.ToSingle(Math.Floor((position.y + 12.5) / 25) * 25f);
+        float closestCenterX = Convert.ToSingle(Math.Floor((position.x + 14) / 28) * 28f);
+        float closestCenterY = Convert.ToSingle(Math.Floor((position.y + 14) / 28) * 28f);
 
         return new Vector3(closestCenterX, closestCenterY, 0);
     }

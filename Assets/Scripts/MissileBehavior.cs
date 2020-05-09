@@ -9,7 +9,6 @@ public class MissileBehavior : MonoBehaviour
     public float movementForce = 0.01f;
     public GameObject damageParticle;
 
-    private PlayerShipBehavior _ship;
     private GenericFunctions _genericFunctions;
     private Rigidbody2D _rb;
     private GameObject _closestEnemy;
@@ -19,7 +18,6 @@ public class MissileBehavior : MonoBehaviour
 
     private void Start()
     {
-        _ship = FindObjectOfType<PlayerShipBehavior>();
         _genericFunctions = FindObjectOfType<GenericFunctions>();
         _closestEnemy = _genericFunctions.FindClosestEnemy(transform.position);
 
@@ -64,6 +62,7 @@ public class MissileBehavior : MonoBehaviour
         // Self destruct after n seconds
         _selfDestructTimer -= Time.deltaTime;
 
+        // Also self-destruct if hits the edge of the bubble
         Vector3 closestCenter = _genericFunctions.GetClosestCircle(position);
 
         if (_selfDestructTimer <= 0 || Vector3.Distance(closestCenter, position) > 12f)
