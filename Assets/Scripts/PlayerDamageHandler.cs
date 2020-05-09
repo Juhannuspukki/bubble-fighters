@@ -19,7 +19,7 @@ public class PlayerDamageHandler : MonoBehaviour
         // Only take damage from Npc weapons
         if (other.CompareTag("NpcProjectile"))
         {
-            _eventHandler.RemovePoint(other.GetComponent<ProjectileBehavior>().damage);
+            _eventHandler.RemovePoints(other.GetComponent<ProjectileBehavior>().damage);
             Destroy(other.gameObject);
             
             _eventHandler.playerGetHit.Play();

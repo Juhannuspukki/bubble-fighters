@@ -80,6 +80,7 @@ MonoBehaviour:
   - {fileID: 1891272232067703366, guid: aab8e685e948b4e4e9248a40d05b1770, type: 3}
   - {fileID: 8560219523098563335, guid: 6cc48aa56824248f18f5121a5f8de284, type: 3}
   - {fileID: 8560219523098563335, guid: 6cc48aa56824248f18f5121a5f8de284, type: 3}
+  - {fileID: 7110187047624803665, guid: e7d38a5a53bfd46d78fbffe44e1cdcc5, type: 3}
   - {fileID: 8859772260254101978, guid: c4ce134e258e0488dac59c7cd2c078d8, type: 3}
   classSixHostiles:
   - {fileID: 6427609019684660486, guid: 8578270974e1542cfb0bd43bfec48620, type: 3}

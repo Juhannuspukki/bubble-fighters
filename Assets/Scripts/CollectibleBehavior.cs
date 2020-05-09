@@ -66,15 +66,11 @@ public class CollectibleBehavior : MonoBehaviour
         // If this collectible is of default type, add a bubble
         if (defaultCollectible)
         {
-            _eventHandler.AddPoint();
+            _eventHandler.AddPoints(1);
         }
         else
         {
-            _eventHandler.AddPoint();
-            _eventHandler.AddPoint();
-            _eventHandler.AddPoint();
-            _eventHandler.AddPoint();
-            _eventHandler.AddPoint();
+            _eventHandler.AddPoints(5);
         }
     }
 }

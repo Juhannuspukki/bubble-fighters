@@ -4,117 +4,32 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
-struct ShipUpgrade
-{
-    public readonly string Modifier;
-    public readonly string UpgradeId;
-    public readonly string Title;
-    public readonly string Description;
-    public readonly int Cost;
-    public readonly List<string> Prerequisites;
-
-    public ShipUpgrade(
-        string modifier,
-        string upgradeId,
-        string title,
-        string description,
-        int cost,
-        List<string> prerequisites
-    )
-    {
-        Modifier = modifier;
-        UpgradeId = upgradeId;
-        Title = title;
-        Description = description;
-        Cost = cost;
-        Prerequisites = prerequisites;
-    }
-}
 
 public class GameEventHandler : MonoBehaviour
 {
     public Text pointLabel;
-    public List<string> unlockedUpgrades;
     public GameObject pauseMenu;
     public GameObject upgradeButton;
     public GameObject installedUpgradeLabel;
     public GameObject availableUpgradeView;
     public GameObject installedUpgradeView;
-    public GameObject shipController;
     public AudioSource npcGetHit;
     public AudioSource playerGetHit;
     public AudioSource playerWeapon;
     public AudioSource explosion;
+    
+    public int pointCount = 0;
 
-    private readonly List<string> _installedUpgrades = new List<string>();
-    private int _pointCount = 0;
+    public List<string> unlockedUpgrades;
+
     private bool _isPaused = false;
+    private UpgradeManager _upgradeManager;
 
-    private readonly List<ShipUpgrade> _upgradeData = new List<ShipUpgrade>{
-        new ShipUpgrade(
-            "weapon",
-            "weapon_1", 
-            "Excalibur turret", 
-            "Improves weapon rate of fire.", 
-            10, 
-            new List<string>()),
-        new ShipUpgrade(
-            "weapon",
-            "weapon_2", 
-            "Adamant turret", 
-            "Double turret with medium rate of fire.", 
-            10,
-            new List<string>{"weapon_1"}),
-        new ShipUpgrade(
-            "weapon",
-            "weapon_3", 
-            "BlueFyre turret", 
-            "Double turret with awe-inspiring rate of fire!", 
-            10,
-            new List<string>{"weapon_1", "weapon_2"}),
-        new ShipUpgrade(
-            "projectile",
-            "projectile_1", 
-            "RowanBerry projectiles", 
-            "Improves projectile damage and speed.", 
-            10, 
-            new List<string>()),
-        new ShipUpgrade(
-            "projectile",
-            "projectile_2", 
-            "Exocet projectiles", 
-            "Improves projectile damage and speed.", 
-            10,
-            new List<string>{"projectile_1"}),
-        new ShipUpgrade(
-            "projectile",
-            "projectile_3", 
-            "BlueFyre projectiles", 
-            "Greatly improves projectile damage and speed. Neat!", 
-            10,
-            new List<string>{"projectile_1", "projectile_2"}),
-        new ShipUpgrade(
-            "ship",
-            "ship_1", 
-            "Bubble fighter", 
-            "Faster and more maneuverable than a standard tank.", 
-            10,
-            new List<string>()),
-        new ShipUpgrade(
-            "ship",
-            "ship_2", 
-            "Advanced Fighter", 
-            "Bubble fighter with improved handling.", 
-            10,
-            new List<string>{"ship_1"}),
-        new ShipUpgrade(
-            "ship",
-            "ship_3", 
-            "Talon fighter", 
-            "The best bubble fighter bubbles can buy.", 
-            10,
-            new List<string>{"ship_1", "ship_2"}),
-    };
+
+    public void Awake()
+    {
+        _upgradeManager = FindObjectOfType<UpgradeManager>();
+    }
 
     public void PauseGame()
     {
@@ -137,21 +52,21 @@ public class GameEventHandler : MonoBehaviour
         
     }
     
-    private void CreatePauseMenuItems()
+    public void CreatePauseMenuItems()
     {
         // Create buttons from list of upgrades the player has unlocked
         foreach (string upgradeId in unlockedUpgrades)
         {
 
-            ShipUpgrade upgrade = _upgradeData.Find(item => item.UpgradeId == upgradeId);
+            ShipUpgrade upgrade = _upgradeManager.UpgradeData.Find(item => item.UpgradeId == upgradeId);
 
             bool prereqsMet = true;
-            bool isInstalled = _installedUpgrades.Contains(upgradeId);
+            bool isInstalled = _upgradeManager.InstalledUpgrades.Contains(upgradeId);
             
             // Do not show list item if prereqs are not met
             foreach (string prereq in upgrade.Prerequisites)
             {
-                if (!_installedUpgrades.Contains(prereq))
+                if (!_upgradeManager.InstalledUpgrades.Contains(prereq))
                 {
                     prereqsMet = false;
                 }
@@ -165,11 +80,11 @@ public class GameEventHandler : MonoBehaviour
                 
                 // If player can afford the upgrade, enable the button
                 clone.GetComponent<Button>().interactable =
-                    upgrade.Cost <= _pointCount && !_installedUpgrades.Contains(upgradeId);
+                    upgrade.Cost <= pointCount && !_upgradeManager.InstalledUpgrades.Contains(upgradeId);
     
                 clone.GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    PurchaseUpgrade(upgrade);
+                    _upgradeManager.PurchaseUpgrade(upgrade);
                     // Re-render menu
                     DeletePauseMenuItems();
                     CreatePauseMenuItems();
@@ -202,7 +117,7 @@ public class GameEventHandler : MonoBehaviour
         
     }
 
-    private void DeletePauseMenuItems()
+    public void DeletePauseMenuItems()
     {
         foreach (Transform child in availableUpgradeView.transform) {
             Destroy(child.gameObject);
@@ -213,86 +128,30 @@ public class GameEventHandler : MonoBehaviour
         }
     }
 
-    private void PurchaseUpgrade(ShipUpgrade upgrade)
+    public void AddPoints(int points)
     {
-        switch (upgrade.Modifier)
-        {
-            case "weapon":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateWeapon(upgrade.UpgradeId);
-                break;
-            
-            case "projectile":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateProjectile(upgrade.UpgradeId);
-                break;
-            
-            case "ship":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateShip(upgrade.UpgradeId);
-                break;
-        }
-        
-        // Add upgrade to list of installed upgrades and remove bubbles
-        _installedUpgrades.Add(upgrade.UpgradeId);
-        _pointCount -= upgrade.Cost;
-        pointLabel.text = _pointCount.ToString();
-        
-        // Re-render menu
-        DeletePauseMenuItems();
-        CreatePauseMenuItems();
+        pointCount += points;
+        pointLabel.text = pointCount.ToString();
     }
     
-    public void AddPoint()
+    public void RemovePoints(int points)
     {
-        _pointCount++;
-        pointLabel.text = _pointCount.ToString();
-    }
-    
-    public void RemovePoint(int point)
-    {
-        if (_pointCount <= 0 && _installedUpgrades.Count == 0)
+        if (pointCount <= 0 && _upgradeManager.InstalledUpgrades.Count == 0)
         {
             return;
         };
 
-        if (_pointCount <= 0)
+        if (pointCount <= 0)
         {
-            DeleteUpgrade();
+            _upgradeManager.DeleteUpgrade();
         }
         
-        _pointCount -= point;
-        pointLabel.text = _pointCount.ToString();
-    }
+        pointCount -= points;
 
-    private void DeleteUpgrade()
-    {
-        // Delete item
-        string latestUpgradeId = _installedUpgrades[_installedUpgrades.Count - 1];
-        ShipUpgrade latestUpgradedItem = _upgradeData.Find(item => item.UpgradeId == latestUpgradeId);
-
-        // Find the item that is one tier worse than what the player has
-        string[] splittedString = latestUpgradeId.Split('_');
-        string modifier = splittedString[0];
-
-        string downgradeToItemId = modifier + "_" + (Int32.Parse(splittedString[1]) - 1);
-
-        // Replace the item with the one that is one tier worse
-        switch (modifier)
+        if (pointCount < 0)
         {
-            case "weapon":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateWeapon(downgradeToItemId);
-                break;
-            
-            case "projectile":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateProjectile(downgradeToItemId);
-                break;
-            
-            case "ship":
-                shipController.GetComponent<PlayerShipBehavior>().UpdateShip(downgradeToItemId);
-                break;
+            pointCount = 0;
         }
-        
-        // Refund item
-        _pointCount += latestUpgradedItem.Cost;
-        
-        _installedUpgrades.RemoveAt(_installedUpgrades.Count - 1);
+        pointLabel.text = pointCount.ToString();
     }
 }
