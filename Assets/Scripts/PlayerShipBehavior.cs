@@ -28,7 +28,7 @@ public class PlayerShipBehavior : MonoBehaviour
         Vector3 shipPosition = transform.position;
         
         shipLocation = _genericFunctions.GetClosestCircle(shipPosition);
-        shipIsWithinEngagementRange = Vector3.Distance(shipLocation, shipPosition) < 12;
+        shipIsWithinEngagementRange = Vector3.Distance(shipLocation, shipPosition) < 14;
                                       
         // Rotate
         Vector3 mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);

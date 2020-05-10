@@ -75,59 +75,72 @@ public class BubbleBehavior : MonoBehaviour
     private void DetermineEnemyClasses()
     {
 
-        if (_distanceFromCenter < 60)
+        if (_distanceFromCenter < 50)
         {
-            int[] neutralChances = { 100, 75, 15, 0, 0 };
+            int[] neutralChances = { 50, 50, 15, 0, 0, 50, 100, 0 };
             int maxNeutrals = UnityEngine.Random.Range(4, 6);
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
         
         else if (_distanceFromCenter < 90)
         {
-            int[] enemyChances = { 100, 100, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            int[] enemyChances = { 100, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int maxEnemies = UnityEngine.Random.Range(1, 3);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
             
-            int[] neutralChances = { 25, 25, 25, 0, 0 };
-            int maxNeutrals = UnityEngine.Random.Range(1, 3);
+            int[] neutralChances = { 25, 25, 25, 0, 0, 0, 90, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(3, 5);
 
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
         
         else if (_distanceFromCenter < 120)
         {
-            int[] enemyChances = { 0, 0, 25, 25, 33, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] enemyChances = { 100, 100, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
             
-            int[] neutralChances = { 50, 10, 50, 0, 0 };
+            int[] neutralChances = { 20, 25, 25, 0, 0, 20, 10, 0 };
+            int maxNeutrals = UnityEngine.Random.Range(1, 3);
+
+            FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
+        }
+        
+        else if (_distanceFromCenter < 160)
+        {
+            int[] enemyChances = { 0, 0, 25, 25, 33, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int maxEnemies = UnityEngine.Random.Range(4, 6);
+            
+            FormEnemyPool(enemyChances, maxEnemies, hostilePool);
+            
+            int[] neutralChances = { 50, 10, 50, 0, 0, 0, 0, 0 };
             int maxNeutrals = UnityEngine.Random.Range(2, 4);
 
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
         
-        else if (_distanceFromCenter < 150)
+        else if (_distanceFromCenter < 200)
         {
-            int[] enemyChances = { 5, 0, 0, 0, 0, 50, 30, 70, 10, 5, 20, 0, 0, 0, 0 };
+            int[] enemyChances = { 5, 0, 0, 0, 0, 50, 30, 70, 10, 5, 20, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
             
-            int[] neutralChances = { 50, 0, 0, 50, 0 };
+            int[] neutralChances = { 50, 0, 0, 50, 0, 0, 0, 0 };
             int maxNeutrals = UnityEngine.Random.Range(2, 4);
 
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);
         }
         else
         {
-            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 0, 20, 10, 50, 50 };
+            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 0, 10, 5, 50, 50, 5, 10 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
             
-            int[] neutralChances = { 10, 10, 50, 20, 10 };
+            int[] neutralChances = { 10, 10, 50, 20, 10, 0, 0, 5 };
             int maxNeutrals = UnityEngine.Random.Range(2, 4);
 
             FormEnemyPool(neutralChances, maxNeutrals, neutralPool);

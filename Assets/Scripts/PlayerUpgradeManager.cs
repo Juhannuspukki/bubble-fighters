@@ -37,6 +37,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     
     public GameObject[] shipModels;
     public GameObject[] weaponModels;
+    public GameObject[] missiles;
     public GameObject[] projectiles;
 
     public float activeDamageChance = 1.0f;
@@ -228,10 +229,12 @@ public class PlayerUpgradeManager : MonoBehaviour
             case 3:
                 _playerShipBehavior.movementForce = 0.6f;
                 hardPoints = new List<Vector3>{new Vector3(0.55f, 0, 0)} ;
+                activeMissile = missiles[0];
                 break;
             case 4:
                 _playerShipBehavior.movementForce = 0.7f;
                 hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
+                activeMissile = missiles[1];
                 break;
         }
         

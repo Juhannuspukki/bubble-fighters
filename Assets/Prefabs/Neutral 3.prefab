@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
-  collectibleSpawnCountMin: 1
+  collectibleSpawnCountMin: 2
   collectibleSpawnCountMax: 4
   damageParticle: {fileID: 4795260967838807290, guid: c05ea69d5fbad49b7b98c4ed0ae025c3,
     type: 3}
