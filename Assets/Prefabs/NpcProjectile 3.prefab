@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134df4b72acd344dca7e30cb11abafb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 24
+  maxSpeed: 30
   damage: 5
 --- !u!50 &5852153724480800766
 Rigidbody2D:
