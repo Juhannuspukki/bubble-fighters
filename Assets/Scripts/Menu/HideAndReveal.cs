@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class HideAndReveal : MonoBehaviour
 {
-    public GameObject itemToHide;
-    public GameObject itemToReveal;
-    
+    public GameObject[] itemsToHide;
+    public GameObject[] itemsToReveal;
+
     public void HideAndRevealItems()
     {
-        itemToHide.SetActive(false);
-        itemToReveal.SetActive(true);
+        foreach (GameObject itemToHide in itemsToHide)
+        {
+            itemToHide.SetActive(false);
+        }
+        
+        foreach (GameObject itemToReveal in itemsToReveal)
+        {
+            itemToReveal.SetActive(true);
+        }
     }
 }

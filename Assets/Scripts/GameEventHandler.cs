@@ -37,8 +37,6 @@ public class GameEventHandler : MonoBehaviour
         Time.timeScale = _isPaused ? 1 : 0;
         _isPaused = !_isPaused;
         
-        pauseMenu.SetActive(_isPaused);
-        
         // Create menu items when the game is paused
         if (_isPaused)
         {

@@ -556,8 +556,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adca031227a3e4d938e82ab58da6ee67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToHide: {fileID: 1254235097}
-  itemToReveal: {fileID: 300005492}
+  itemsToHide:
+  - {fileID: 1254235097}
+  itemsToReveal:
+  - {fileID: 300005492}
 --- !u!114 &1000321922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,8 +734,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adca031227a3e4d938e82ab58da6ee67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToHide: {fileID: 300005492}
-  itemToReveal: {fileID: 1254235097}
+  itemsToHide:
+  - {fileID: 300005492}
+  itemsToReveal:
+  - {fileID: 1254235097}
 --- !u!114 &1200987739
 MonoBehaviour:
   m_ObjectHideFlags: 0
