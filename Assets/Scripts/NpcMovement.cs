@@ -50,14 +50,14 @@ public class NpcMovement : MonoBehaviour
             }
         }
         
-        transform.rotation = Quaternion.Slerp(transform.rotation, _qTo, Time.deltaTime * RotSpeed);
+        _rb.transform.rotation = Quaternion.Slerp(transform.rotation, _qTo, Time.deltaTime * RotSpeed);
 
     }
     
     void FixedUpdate()
     {
         // Move forward
-        transform.position += transform.right * Time.deltaTime * 1.5f;
+        _rb.transform.position += transform.right * (Time.deltaTime * 1.5f);
     }
 
 }
