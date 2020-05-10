@@ -117,7 +117,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             "Sceptre fighter", 
             "The phantom menace.", 
             600,
-            new List<string>{"ship_1", "ship_2"}),
+            new List<string>{"ship_1", "ship_2", "ship_3"}),
         new ShipUpgrade(
             "defense",
             "defense_1", 
