@@ -94,7 +94,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             "ship",
             "ship_1", 
             "Bubble fighter", 
-            "Faster and more maneuverable than a standard tank.", 
+            "Faster and more maneuverable than the standard fighter.", 
             20,
             new List<string>()),
         new ShipUpgrade(
@@ -108,8 +108,15 @@ public class PlayerUpgradeManager : MonoBehaviour
             "ship",
             "ship_3", 
             "Talon fighter", 
-            "The best bubble fighter bubbles can buy.", 
+            "This fighter is even faster and can fire guided missiles.", 
             400,
+            new List<string>{"ship_1", "ship_2"}),
+        new ShipUpgrade(
+            "ship",
+            "ship_4", 
+            "Sceptre fighter", 
+            "The phantom menace.", 
+            600,
             new List<string>{"ship_1", "ship_2"}),
         new ShipUpgrade(
             "defense",
