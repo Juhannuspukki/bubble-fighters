@@ -84,7 +84,7 @@ public class BubbleBehavior : MonoBehaviour
         
         else if (_distanceFromCenter < 90)
         {
-            int[] enemyChances = { 100, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] enemyChances = { 100, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(1, 3);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
@@ -97,7 +97,7 @@ public class BubbleBehavior : MonoBehaviour
         
         else if (_distanceFromCenter < 120)
         {
-            int[] enemyChances = { 100, 100, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] enemyChances = { 100, 100, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
@@ -110,7 +110,7 @@ public class BubbleBehavior : MonoBehaviour
         
         else if (_distanceFromCenter < 160)
         {
-            int[] enemyChances = { 0, 0, 25, 25, 33, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] enemyChances = { 0, 0, 25, 25, 33, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
@@ -123,7 +123,7 @@ public class BubbleBehavior : MonoBehaviour
         
         else if (_distanceFromCenter < 200)
         {
-            int[] enemyChances = { 5, 0, 0, 0, 0, 50, 30, 70, 10, 5, 20, 0, 0, 0, 0, 0, 0 };
+            int[] enemyChances = { 5, 0, 0, 0, 0, 50, 30, 70, 10, 5, 20, 0, 0, 0, 0, 0, 0, 0, 0 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
@@ -135,7 +135,7 @@ public class BubbleBehavior : MonoBehaviour
         }
         else
         {
-            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 0, 10, 5, 50, 50, 5, 10 };
+            int[] enemyChances = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 10, 5, 20, 20, 10, 10, 10, 2 };
             int maxEnemies = UnityEngine.Random.Range(4, 6);
             
             FormEnemyPool(enemyChances, maxEnemies, hostilePool);
@@ -152,6 +152,7 @@ public class BubbleBehavior : MonoBehaviour
         int spawnedCount = 0;
         while (true)
         {
+            
             for(int i = 0; i < probabilities.Length; i ++)
             {
                 if (UnityEngine.Random.Range(100, 0) < probabilities[i])
