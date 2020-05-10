@@ -8,12 +8,16 @@ public class Architect : MonoBehaviour
     public GameObject bubble;
     private GenericFunctions _genericFunctions;
     private readonly List<Vector3> _bubbleLocations = new List<Vector3>();
+    private readonly List<Vector3> _visitedBubbleLocations = new List<Vector3>();
     private readonly List<Vector3> _conqueredBubbleLocations = new List<Vector3>();
     
     // Start is called before the first frame update
     private void Awake()
     {
         _genericFunctions = FindObjectOfType<GenericFunctions>();
+        
+        _conqueredBubbleLocations.Add(Vector3.zero);
+        _visitedBubbleLocations.Add(Vector3.zero);
         
         GenerateWorld();
     }
@@ -29,8 +33,6 @@ public class Architect : MonoBehaviour
                 Instantiate(bubble, newBubbleLocation, Quaternion.identity);
             }
         }
-        
-        _conqueredBubbleLocations.Add(Vector3.zero);
     }
 
     public void GenerateSurroundingBubbles(Vector3 initialBubbleCoords)
@@ -62,6 +64,14 @@ public class Architect : MonoBehaviour
     {
         _conqueredBubbleLocations.Add(bubbleCoordinates);
     }
+
+    public void VisitBubble(Vector3 bubbleCoordinates)
+    {
+        if (_visitedBubbleLocations.Contains(bubbleCoordinates)) return;
+
+        _visitedBubbleLocations.Add(bubbleCoordinates);
+
+    }
     
     public Vector3 GetClosestConqueredBubble(Vector3 shipCoordinates)
     {
@@ -82,5 +92,18 @@ public class Architect : MonoBehaviour
         }
 
         return closestConqueredBubble;
+    }
+    
+    public List<Vector3> SimpleBubbleCoordinates()
+    {
+        List<Vector3> simplifiedCoordsList = new List<Vector3>();
+
+        foreach (var visitedBubble in _visitedBubbleLocations)
+        {
+            Vector3 newCoords = new Vector3((visitedBubble.x / 28) * 10, (visitedBubble.y / 28) * 10, 0);
+            simplifiedCoordsList.Add(newCoords);
+        }
+
+        return simplifiedCoordsList;
     }
 }

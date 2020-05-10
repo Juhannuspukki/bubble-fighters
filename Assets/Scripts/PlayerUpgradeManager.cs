@@ -215,7 +215,7 @@ public class PlayerUpgradeManager : MonoBehaviour
         switch (shipId)
         {
             case 0:
-                _playerShipBehavior.movementForce = 0.25f;
+                _playerShipBehavior.movementForce = 0.2f;
                 hardPoints = new List<Vector3>{new Vector3(0, 0, 0)} ;
                 break;
             case 1:
