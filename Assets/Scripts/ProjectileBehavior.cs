@@ -10,12 +10,9 @@ public class ProjectileBehavior : MonoBehaviour
     
     private float _selfDestructTimer = 8f;
     private GenericFunctions _genericFunctions;
-    private Rigidbody2D _rb;
-
-
+    
     private void Awake()
     {
-        _rb = gameObject.GetComponent<Rigidbody2D>();
         _genericFunctions = FindObjectOfType<GenericFunctions>();
     }
 
@@ -23,7 +20,7 @@ public class ProjectileBehavior : MonoBehaviour
     void Update()
     {
         // Move forward
-        _rb.transform.position += transform.right * (Time.deltaTime * maxSpeed);
+        transform.position += transform.right * (Time.deltaTime * maxSpeed);
         
         // Self destruct after n seconds
         _selfDestructTimer -= Time.deltaTime;

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1214114403246092916}
   - component: {fileID: 226509817375627349}
   - component: {fileID: 5325059182334659270}
-  - component: {fileID: 5491244240035146473}
   - component: {fileID: 2657219139768914842}
   m_Layer: 0
   m_Name: Projectile 3
@@ -96,27 +95,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 25
   damage: 2
---- !u!50 &5491244240035146473
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4658738697745841295}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &2657219139768914842
 BoxCollider2D:
   m_ObjectHideFlags: 0
