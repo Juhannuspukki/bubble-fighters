@@ -29,13 +29,13 @@ public class MissileBehavior : MonoBehaviour
     {
         Vector3 position = transform.position;
         
-        // Find closest enemy
-
+        // Find closest enemy, if no enemy is currently stored in _closestEnemy
         if (_closestEnemy == null)
         {
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             _closestEnemy = _genericFunctions.FindClosestEnemy(transform.position);
             
+            // If _closestEnemy is still null, it means nothing new was found
             if (_closestEnemy == null)
             {
                 Destroy(gameObject);

@@ -1541,7 +1541,6 @@ GameObject:
   - component: {fileID: 675424148}
   - component: {fileID: 675424147}
   - component: {fileID: 675424146}
-  - component: {fileID: 675424145}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -1568,24 +1567,6 @@ RectTransform:
   m_AnchoredPosition: {x: -30.099976, y: -19.900085}
   m_SizeDelta: {x: 38.54001, y: 21.055}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &675424145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675424143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adca031227a3e4d938e82ab58da6ee67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemsToHide:
-  - {fileID: 195516669}
-  - {fileID: 675424143}
-  itemsToReveal:
-  - {fileID: 105423764}
-  - {fileID: 1858138238}
 --- !u!114 &675424146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1628,17 +1609,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1152792856}
         m_MethodName: PauseGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 675424145}
-        m_MethodName: HideAndRevealItems
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2265,6 +2235,7 @@ GameObject:
   - component: {fileID: 1152792856}
   - component: {fileID: 1152792857}
   - component: {fileID: 1152792858}
+  - component: {fileID: 1152792859}
   m_Layer: 0
   m_Name: GameEventHandler
   m_TagString: Untagged
@@ -2299,7 +2270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointLabel: {fileID: 1459978343}
-  pauseMenu: {fileID: 195516669}
   upgradeButton: {fileID: 5933441670244130257, guid: e94fabb01313c426a81cb78a07c458d9,
     type: 3}
   installedUpgradeLabel: {fileID: 213195320925931830, guid: 212cea3f365ad4b8ebef8d86fa1157aa,
@@ -2310,8 +2280,21 @@ MonoBehaviour:
   playerGetHit: {fileID: 945937823}
   playerWeapon: {fileID: 1256256919}
   explosion: {fileID: 519500479}
+  itemsToHideOnPause:
+  - {fileID: 1858138238}
+  - {fileID: 105423764}
+  itemsToRevealOnPause:
+  - {fileID: 675424143}
+  - {fileID: 195516669}
+  itemsToHideOnResume:
+  - {fileID: 675424143}
+  - {fileID: 195516669}
+  itemsToRevealOnResume:
+  - {fileID: 1858138238}
+  - {fileID: 105423764}
   pointCount: 0
   unlockedUpgrades: []
+  isPaused: 0
 --- !u!114 &1152792857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2337,6 +2320,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1424165b1244742738faa58eeb7e8cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1152792859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152792854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adca031227a3e4d938e82ab58da6ee67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToHide: []
+  itemsToReveal: []
 --- !u!1 &1169705060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2982,7 +2979,6 @@ GameObject:
   - component: {fileID: 1858138242}
   - component: {fileID: 1858138241}
   - component: {fileID: 1858138240}
-  - component: {fileID: 1858138244}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -3060,17 +3056,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1858138244}
-        m_MethodName: HideAndRevealItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1858138241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3106,24 +3091,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858138238}
   m_CullTransparentMesh: 0
---- !u!114 &1858138244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858138238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adca031227a3e4d938e82ab58da6ee67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemsToHide:
-  - {fileID: 105423764}
-  - {fileID: 1858138238}
-  itemsToReveal:
-  - {fileID: 195516669}
-  - {fileID: 675424143}
 --- !u!1 &1883204323
 GameObject:
   m_ObjectHideFlags: 0

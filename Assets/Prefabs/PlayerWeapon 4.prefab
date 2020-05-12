@@ -368,7 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rateOfFire: 0.1
   projectileX: 0.55
-  projectileY: 0.1
+  projectileY: 0.12
 --- !u!114 &5351568966292899279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rateOfFire: 0.1
   projectileX: 0.55
-  projectileY: -0.1
+  projectileY: -0.12
 --- !u!1 &5960865882465183230
 GameObject:
   m_ObjectHideFlags: 0

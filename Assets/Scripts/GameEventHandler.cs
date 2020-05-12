@@ -7,7 +7,6 @@ using UnityEngine;
 public class GameEventHandler : MonoBehaviour
 {
     public Text pointLabel;
-    public GameObject pauseMenu;
     public GameObject upgradeButton;
     public GameObject installedUpgradeLabel;
     public GameObject availableUpgradeView;
@@ -17,6 +16,11 @@ public class GameEventHandler : MonoBehaviour
     public AudioSource playerWeapon;
     public AudioSource explosion;
     
+    public GameObject[] itemsToHideOnPause;
+    public GameObject[] itemsToRevealOnPause;
+    public GameObject[] itemsToHideOnResume;
+    public GameObject[] itemsToRevealOnResume;
+    
     public int pointCount = 0;
 
     public List<string> unlockedUpgrades;
@@ -24,17 +28,22 @@ public class GameEventHandler : MonoBehaviour
     public bool isPaused = false;
     private PlayerUpgradeManager _upgradeManager;
     private Architect _architect;
+    private HideAndReveal _hideAndReveal;
 
 
     private void Awake()
     {
         _upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
         _architect = FindObjectOfType<Architect>();
+        _hideAndReveal = FindObjectOfType<HideAndReveal>();
     }
 
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
     }
 
     public void PauseGame()
@@ -45,12 +54,20 @@ public class GameEventHandler : MonoBehaviour
         // Create menu items when the game is paused
         if (isPaused)
         {
+            _hideAndReveal.itemsToHide = itemsToHideOnPause;
+            _hideAndReveal.itemsToReveal = itemsToRevealOnPause;
+            _hideAndReveal.HideAndRevealItems();
+            
             CreatePauseMenuItems();
         }
         
         // Delete menu items when the game is no longer paused
         else
         {
+            _hideAndReveal.itemsToHide = itemsToHideOnResume;
+            _hideAndReveal.itemsToReveal = itemsToRevealOnResume;
+            _hideAndReveal.HideAndRevealItems();
+            
             DeletePauseMenuItems();
         }
         
