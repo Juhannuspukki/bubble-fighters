@@ -21,24 +21,29 @@ public class GameEventHandler : MonoBehaviour
 
     public List<string> unlockedUpgrades;
 
-    private bool _isPaused = false;
+    public bool isPaused = false;
     private PlayerUpgradeManager _upgradeManager;
     private Architect _architect;
 
 
-    public void Awake()
+    private void Awake()
     {
         _upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
         _architect = FindObjectOfType<Architect>();
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void PauseGame()
     {
-        Time.timeScale = _isPaused ? 1 : 0;
-        _isPaused = !_isPaused;
+        Time.timeScale = isPaused ? 1 : 0;
+        isPaused = !isPaused;
         
         // Create menu items when the game is paused
-        if (_isPaused)
+        if (isPaused)
         {
             CreatePauseMenuItems();
         }

@@ -27,7 +27,7 @@ public class PlayerTurretBehavior : MonoBehaviour
     {
         _cooldownTimer -= Time.deltaTime;
 
-        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetButton("Fire1") && _cooldownTimer <= 0)
+        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetButton("Fire1") && _cooldownTimer <= 0 && !_eventHandler.isPaused)
         {
             _cooldownTimer = rateOfFire;
             Fire();
