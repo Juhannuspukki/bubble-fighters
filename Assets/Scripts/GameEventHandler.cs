@@ -58,7 +58,7 @@ public class GameEventHandler : MonoBehaviour
             _hideAndReveal.itemsToReveal = itemsToRevealOnPause;
             _hideAndReveal.HideAndRevealItems();
             
-            CreatePauseMenuItems();
+            CreateUpgradeMenuItems();
         }
         
         // Delete menu items when the game is no longer paused
@@ -68,12 +68,12 @@ public class GameEventHandler : MonoBehaviour
             _hideAndReveal.itemsToReveal = itemsToRevealOnResume;
             _hideAndReveal.HideAndRevealItems();
             
-            DeletePauseMenuItems();
+            DeleteUpgradeMenuItems();
         }
         
     }
     
-    public void CreatePauseMenuItems()
+    public void CreateUpgradeMenuItems()
     {
         // Create buttons from list of upgrades the player has unlocked
         foreach (string upgradeId in unlockedUpgrades)
@@ -107,8 +107,8 @@ public class GameEventHandler : MonoBehaviour
                 {
                     _upgradeManager.PurchaseUpgrade(upgrade);
                     // Re-render menu
-                    DeletePauseMenuItems();
-                    CreatePauseMenuItems();
+                    DeleteUpgradeMenuItems();
+                    CreateUpgradeMenuItems();
                 });
                     
                 // Set button texts
@@ -138,7 +138,7 @@ public class GameEventHandler : MonoBehaviour
         
     }
 
-    public void DeletePauseMenuItems()
+    public void DeleteUpgradeMenuItems()
     {
         foreach (Transform child in availableUpgradeView.transform) {
             Destroy(child.gameObject);

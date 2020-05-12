@@ -169,8 +169,8 @@ public class PlayerUpgradeManager : MonoBehaviour
         _gameEventHandler.RemovePoints(upgrade.Cost);
         
         // Re-render menu
-        _gameEventHandler.DeletePauseMenuItems();
-        _gameEventHandler.CreatePauseMenuItems();
+        _gameEventHandler.DeleteUpgradeMenuItems();
+        _gameEventHandler.CreateUpgradeMenuItems();
     }
     
     public void DeleteUpgrade()
