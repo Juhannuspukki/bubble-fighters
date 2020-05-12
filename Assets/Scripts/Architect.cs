@@ -6,58 +6,24 @@ using UnityEngine;
 public class Architect : MonoBehaviour
 {
     public GameObject bubble;
-    private GenericFunctions _genericFunctions;
-    private readonly List<Vector3> _bubbleLocations = new List<Vector3>();
     private readonly List<Vector3> _visitedBubbleLocations = new List<Vector3>();
     private readonly List<Vector3> _conqueredBubbleLocations = new List<Vector3>();
     
     // Start is called before the first frame update
     private void Awake()
     {
-        _genericFunctions = FindObjectOfType<GenericFunctions>();
-        
+        // Add the starting bubble
         _conqueredBubbleLocations.Add(Vector3.zero);
         _visitedBubbleLocations.Add(Vector3.zero);
-        
-        GenerateWorld();
-    }
-    
-    private void GenerateWorld()
-    {
-        for (int y = -28; y <= 28; y += 28)
-        {
-            for (int x = -28; x <= 28; x += 28)
-            {
-                Vector3 newBubbleLocation = new Vector3(x, y, 0);
-                _bubbleLocations.Add(newBubbleLocation);
-                Instantiate(bubble, newBubbleLocation, Quaternion.identity);
-            }
-        }
     }
 
-    public void GenerateSurroundingBubbles(Vector3 initialBubbleCoords)
+    public void GenerateWorld(Vector3 location)
     {
-
-        Vector3 closestCenter = _genericFunctions.GetClosestCircle(initialBubbleCoords);
-
-        // Add surrounding bubble coords to a list
-        Vector3[] closestBubbleLocations =
-        {
-            new Vector3(closestCenter.x + 28f, closestCenter.y, 0),
-            new Vector3(closestCenter.x - 28f, closestCenter.y, 0),
-            new Vector3(closestCenter.x, closestCenter.y + 28f, 0),
-            new Vector3(closestCenter.x, closestCenter.y - 28f, 0)
-        };
+        // If there is a bubble here, do not make a new one
+        if (_visitedBubbleLocations.Contains(location)) return;
         
-        // If bubbles don't exist at these locations, create them
-        foreach (Vector3 location in closestBubbleLocations)
-        {
-            if (!_bubbleLocations.Contains(location))
-            {
-                Instantiate(bubble, location, Quaternion.identity);
-                _bubbleLocations.Add(location);
-            }
-        }
+        Instantiate(bubble, location, Quaternion.identity);
+        _visitedBubbleLocations.Add(location);
     }
 
     public void ConquerBubble(Vector3 bubbleCoordinates)
@@ -65,14 +31,6 @@ public class Architect : MonoBehaviour
         _conqueredBubbleLocations.Add(bubbleCoordinates);
     }
 
-    public void VisitBubble(Vector3 bubbleCoordinates)
-    {
-        if (_visitedBubbleLocations.Contains(bubbleCoordinates)) return;
-
-        _visitedBubbleLocations.Add(bubbleCoordinates);
-
-    }
-    
     public Vector3 GetClosestConqueredBubble(Vector3 shipCoordinates)
     {
         // Initialize with infinite distance

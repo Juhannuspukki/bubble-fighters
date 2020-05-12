@@ -8,7 +8,7 @@ public class BubbleBehavior : MonoBehaviour
     public GameObject[] neutralPool;
     public GameObject[] hostilePool;
     
-    private Architect _architect;
+    private PlayerShipBehavior _playerShip;
     private float _distanceFromCenter;
     private readonly List<GameObject> _selectedEnemies = new List<GameObject>();
 
@@ -22,9 +22,6 @@ public class BubbleBehavior : MonoBehaviour
             {
                 child.gameObject.SetActive(true);
             }
-
-            // Spawn new bubbles surrounding this one
-            _architect.GenerateSurroundingBubbles(transform.position);
         }
     }
 
@@ -41,7 +38,7 @@ public class BubbleBehavior : MonoBehaviour
 
     private void Awake()
     {
-        _architect = FindObjectOfType<Architect>();
+        _playerShip = FindObjectOfType<PlayerShipBehavior>();
         _distanceFromCenter = Vector3.Distance(transform.position, Vector3.zero);
 
         DetermineEnemyClasses();
@@ -55,17 +52,32 @@ public class BubbleBehavior : MonoBehaviour
         // Spawn enemies if player is close enough
         // But not on the starting bubble
         if (position == Vector3.zero) return;
-        
-        
+
+
+        // Determine the direction in which player entered the bubble
+        // Purpose: spawn enemies on the side of the bubble the player does not see
+        float xModifier = 0;
+        float yModifier = 0;
+        if (_playerShip.previousShipLocation.x == _playerShip.shipLocation.x)
+        {
+            yModifier = _playerShip.previousShipLocation.y < _playerShip.shipLocation.y ? 5 :-5;
+        }
+        else if (_playerShip.previousShipLocation.y == _playerShip.shipLocation.y)
+        {
+            xModifier = _playerShip.previousShipLocation.x < _playerShip.shipLocation.x ? 5 :-5;
+        }
+            
         foreach (GameObject enemyShip in _selectedEnemies)
         {
             // Randomize spawn position within bubble
-            float randomDistanceX = position.x + UnityEngine.Random.Range(-5, 5);
-            float randomDistanceY = position.y + UnityEngine.Random.Range(-5, 5);
+            float randomDistanceX = position.x + xModifier + UnityEngine.Random.Range(-5, 5);
+            float randomDistanceY = position.y + yModifier + UnityEngine.Random.Range(-5, 5);
+            
+            Quaternion randomRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0.0f, 360.0f));
             
             Vector3 spawnPosition = new Vector3(randomDistanceX, randomDistanceY, 0);
                 
-            GameObject clone = Instantiate(enemyShip, spawnPosition, Quaternion.identity);
+            GameObject clone = Instantiate(enemyShip, spawnPosition, randomRotation);
             clone.transform.parent = gameObject.transform;
             clone.gameObject.SetActive(false);
         }

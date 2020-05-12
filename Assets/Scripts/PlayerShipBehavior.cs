@@ -41,7 +41,7 @@ public class PlayerShipBehavior : MonoBehaviour
             previousShipLocation = shipLocation;
             shipLocation = newShipLocation;
             
-            _architect.VisitBubble(shipLocation);
+            _architect.GenerateWorld(shipLocation);
             _generateMap.UpdateMap(shipLocation);
         }
                                       
