@@ -12,7 +12,7 @@ public class RotateWeapon : MonoBehaviour
     {
         _playerShip = FindObjectOfType<PlayerShipBehavior>();
 
-        _parentCenter = FindObjectOfType<GenericFunctions>().GetClosestCircle(transform.position);
+        _parentCenter = GenericFunctions.GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame

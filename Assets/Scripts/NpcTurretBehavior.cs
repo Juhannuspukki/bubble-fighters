@@ -18,7 +18,7 @@ public class NpcTurretBehavior : MonoBehaviour
         // Randomize delay before firing
         _cooldownTimer = UnityEngine.Random.Range(2.5f, 1.0f); 
         _playerShip = FindObjectOfType<PlayerShipBehavior>();
-        _parentCenter = FindObjectOfType<GenericFunctions>().GetClosestCircle(transform.position);
+        _parentCenter = GenericFunctions.GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame

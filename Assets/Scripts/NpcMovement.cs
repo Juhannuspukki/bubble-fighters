@@ -16,7 +16,7 @@ public class NpcMovement : MonoBehaviour
     void Awake()
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
-        _parentCenter = FindObjectOfType<GenericFunctions>().GetClosestCircle(transform.position);
+        _parentCenter = GenericFunctions.GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame

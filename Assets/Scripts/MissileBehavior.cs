@@ -9,7 +9,7 @@ public class MissileBehavior : MonoBehaviour
     public float movementForce = 0.01f;
     public GameObject damageParticle;
 
-    private GenericFunctions _genericFunctions;
+    private Vector3 _closestCenter;
     private Rigidbody2D _rb;
     private GameObject _closestEnemy;
     
@@ -18,14 +18,16 @@ public class MissileBehavior : MonoBehaviour
 
     private void Start()
     {
-        _genericFunctions = FindObjectOfType<GenericFunctions>();
-        _closestEnemy = _genericFunctions.FindClosestEnemy(transform.position);
+        Vector3 position = transform.position;
+        
+        _closestCenter = GenericFunctions.GetClosestCircle(position);
+        _closestEnemy = GenericFunctions.FindClosestEnemy(position);
 
         _rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Vector3 position = transform.position;
         
@@ -33,7 +35,7 @@ public class MissileBehavior : MonoBehaviour
         if (_closestEnemy == null)
         {
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            _closestEnemy = _genericFunctions.FindClosestEnemy(transform.position);
+            _closestEnemy = GenericFunctions.FindClosestEnemy(transform.position);
             
             // If _closestEnemy is still null, it means nothing new was found
             if (_closestEnemy == null)
@@ -63,9 +65,7 @@ public class MissileBehavior : MonoBehaviour
         _selfDestructTimer -= Time.deltaTime;
 
         // Also self-destruct if hits the edge of the bubble
-        Vector3 closestCenter = _genericFunctions.GetClosestCircle(position);
-
-        if (_selfDestructTimer <= 0 || Vector3.Distance(closestCenter, position) > 12f)
+        if (_selfDestructTimer <= 0 || Vector3.Distance(_closestCenter, position) > 12f)
         {
             Destroy(gameObject);
         }
@@ -77,7 +77,7 @@ public class MissileBehavior : MonoBehaviour
     }
     
     
-    void SpawnDamageParticles(Vector3 position)
+    private void SpawnDamageParticles(Vector3 position)
     {
         int numberOfParticles = UnityEngine.Random.Range(5, 7);
         

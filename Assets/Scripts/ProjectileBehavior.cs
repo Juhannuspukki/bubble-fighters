@@ -9,11 +9,12 @@ public class ProjectileBehavior : MonoBehaviour
     public int damage = 1;
     
     private float _selfDestructTimer = 8f;
-    private GenericFunctions _genericFunctions;
+    private Vector3 _closestCenter;
+    
     
     private void Awake()
     {
-        _genericFunctions = FindObjectOfType<GenericFunctions>();
+        _closestCenter = GenericFunctions.GetClosestCircle(transform.position);
     }
 
     // Update is called once per frame
@@ -24,11 +25,9 @@ public class ProjectileBehavior : MonoBehaviour
         
         // Self destruct after n seconds
         _selfDestructTimer -= Time.deltaTime;
-        
-        // Also self destruct if too far from the bubble center
-        Vector3 closestCenter = _genericFunctions.GetClosestCircle(transform.position);
 
-        if (_selfDestructTimer <= 0 || Vector3.Distance(closestCenter, transform.position) > 13.25f)
+        // Also self destruct if too far from the bubble center
+        if (_selfDestructTimer <= 0 || Vector3.Distance(_closestCenter, transform.position) > 13.25f)
         {
             Destroy(gameObject);
         }

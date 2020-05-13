@@ -20,7 +20,7 @@ public class CollectibleBehavior : MonoBehaviour
         _genericFunctions = FindObjectOfType<GenericFunctions>();
         _rb = GetComponent<Rigidbody2D>();
             
-        _parentBubbleCenter = _genericFunctions.GetClosestCircle(transform.position);
+        _parentBubbleCenter = GenericFunctions.GetClosestCircle(transform.position);
     }
     
     private void Start()

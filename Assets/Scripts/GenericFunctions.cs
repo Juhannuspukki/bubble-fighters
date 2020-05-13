@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GenericFunctions : MonoBehaviour
 {
-    public Vector3 GetClosestCircle(Vector3 position)
+    public static Vector3 GetClosestCircle(Vector3 position)
     {
         // Detemine where the center of the closest circle is
         float closestCenterX = Convert.ToSingle(Math.Floor((position.x + 14) / 28) * 28f);
@@ -14,7 +14,7 @@ public class GenericFunctions : MonoBehaviour
         return new Vector3(closestCenterX, closestCenterY, 0);
     }
     
-    public GameObject FindClosestEnemy(Vector3 position)
+    public static GameObject FindClosestEnemy(Vector3 position)
     {
         GameObject closestEnemy = null;
         

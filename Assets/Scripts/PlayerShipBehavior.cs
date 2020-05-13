@@ -32,7 +32,7 @@ public class PlayerShipBehavior : MonoBehaviour
     {
         Vector3 shipPosition = transform.position;
         
-        Vector3 newShipLocation = _genericFunctions.GetClosestCircle(shipPosition);
+        Vector3 newShipLocation = GenericFunctions.GetClosestCircle(shipPosition);
         shipIsWithinEngagementRange = Vector3.Distance(shipLocation, shipPosition) < 13.5;
 
         // Only update shipLocation if it has changed
