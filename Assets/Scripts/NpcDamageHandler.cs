@@ -89,7 +89,10 @@ public class NpcDamageHandler : MonoBehaviour
         if (!_eventHandler.unlockedUpgrades.Contains(dropsUpgrade) && dropsUpgrade != "none")
         {
             Instantiate(specialCollectibleBubble, transform.position, transform.rotation);
+            
+            // Unlock the upgrade and make it available for purchase
             _eventHandler.unlockedUpgrades.Add(dropsUpgrade);
+            _eventHandler.SetAvailableUpgradeData();
         }
     }
 }

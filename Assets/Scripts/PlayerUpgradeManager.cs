@@ -66,29 +66,29 @@ public class PlayerUpgradeManager : MonoBehaviour
             "weapon",
             "weapon_3", 
             "BlueFyre turret", 
-            "Double turret with awe-inspiring rate of fire!", 
-            200,
+            "Double turret with an awe-inspiring rate of fire!", 
+            300,
             new List<string>{"weapon_1", "weapon_2"}),
         new ShipUpgrade(
             "projectile",
             "projectile_1", 
             "RowanBerry projectiles", 
-            "Improves projectile damage and speed.", 
+            "Improves projectile damage.", 
             20, 
             new List<string>()),
         new ShipUpgrade(
             "projectile",
             "projectile_2", 
             "Exocet projectiles", 
-            "Improves projectile damage and speed.", 
-            60,
+            "Improves projectile speed.", 
+            80,
             new List<string>{"projectile_1"}),
         new ShipUpgrade(
             "projectile",
             "projectile_3", 
             "BlueFyre projectiles", 
             "Greatly improves projectile damage and speed. Neat!", 
-            200,
+            300,
             new List<string>{"projectile_1", "projectile_2"}),
         new ShipUpgrade(
             "ship",
@@ -121,16 +121,16 @@ public class PlayerUpgradeManager : MonoBehaviour
         new ShipUpgrade(
             "defense",
             "defense_1", 
-            "Evasion I", 
-            "5% chance to not take damage when you get hit.", 
+            "Basic defense field", 
+            "10% chance to not take damage when you get hit.", 
             10,
             new List<string>()),
         new ShipUpgrade(
             "defense",
             "defense_2", 
-            "Evasion II", 
+            "Advanced defense field", 
             "25% chance to not take damage when you get hit.", 
-            200,
+            400,
             new List<string>{"defense_1"}),
     };
 
@@ -143,7 +143,7 @@ public class PlayerUpgradeManager : MonoBehaviour
         activeProjectile = projectiles[0];
     }
 
-    public void PurchaseUpgrade(ShipUpgrade upgrade)
+    public void InstallUpgrade(ShipUpgrade upgrade)
     {
         
         int upgradeId = Int32.Parse(upgrade.UpgradeId.Split('_')[1]);
@@ -167,10 +167,6 @@ public class PlayerUpgradeManager : MonoBehaviour
         // Add upgrade to list of installed upgrades and remove bubbles
         InstalledUpgrades.Add(upgrade.UpgradeId);
         _gameEventHandler.RemovePoints(upgrade.Cost);
-        
-        // Re-render menu
-        _gameEventHandler.DeleteUpgradeMenuItems();
-        _gameEventHandler.CreateUpgradeMenuItems();
     }
     
     public void DeleteUpgrade()

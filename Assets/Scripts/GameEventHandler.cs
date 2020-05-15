@@ -7,14 +7,28 @@ using UnityEngine;
 public class GameEventHandler : MonoBehaviour
 {
     public Text pointLabel;
-    public GameObject upgradeButton;
-    public GameObject installedUpgradeLabel;
-    public GameObject availableUpgradeView;
-    public GameObject installedUpgradeView;
+    public Text availableUpgradeCountLabel;
+    public GameObject availableUpgradeCountIndicator;
+    public GameObject[] nextPrevButtons;
+    
+    public Text availableUpgradeHeadline;
+    public Image availableUpgradeImage;
+    public Text availableUpgradeTitle;
+    public Text availableUpgradeDescription;
+    public Text availableUpgradeCost;
+
+    public GameObject purchaseButton;
+
     public AudioSource npcGetHit;
     public AudioSource playerGetHit;
     public AudioSource playerWeapon;
     public AudioSource explosion;
+
+    public Sprite unavailableSprite;
+    public Sprite[] projectileSprites;
+    public Sprite[] weaponSprites;
+    public Sprite[] defenseSprites;
+    public Sprite[] shipSprites;
     
     public GameObject[] itemsToHideOnPause;
     public GameObject[] itemsToRevealOnPause;
@@ -22,20 +36,26 @@ public class GameEventHandler : MonoBehaviour
     public GameObject[] itemsToRevealOnResume;
     
     public int pointCount = 0;
+    public bool isPaused = false;
 
     public List<string> unlockedUpgrades;
+    public List<ShipUpgrade> availableUpgrades = new List<ShipUpgrade>();
 
-    public bool isPaused = false;
+    private int _currentUpgradeIndex = 0;
+    private string _menuType = "available";
+        
     private PlayerUpgradeManager _upgradeManager;
     private Architect _architect;
     private HideAndReveal _hideAndReveal;
-
+    private Rigidbody2D _shipRigidBody;
 
     private void Awake()
     {
         _upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
         _architect = FindObjectOfType<Architect>();
         _hideAndReveal = FindObjectOfType<HideAndReveal>();
+
+        _shipRigidBody = _upgradeManager.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -57,8 +77,6 @@ public class GameEventHandler : MonoBehaviour
             _hideAndReveal.itemsToHide = itemsToHideOnPause;
             _hideAndReveal.itemsToReveal = itemsToRevealOnPause;
             _hideAndReveal.HideAndRevealItems();
-            
-            CreateUpgradeMenuItems();
         }
         
         // Delete menu items when the game is no longer paused
@@ -68,85 +86,180 @@ public class GameEventHandler : MonoBehaviour
             _hideAndReveal.itemsToReveal = itemsToRevealOnResume;
             _hideAndReveal.HideAndRevealItems();
             
-            DeleteUpgradeMenuItems();
+            // Also stop ship to prevent funny movements
+            _shipRigidBody.velocity = Vector3.zero;
+            
         }
         
     }
-    
-    public void CreateUpgradeMenuItems()
+
+    public void SetAvailableUpgradeData()
     {
-        // Create buttons from list of upgrades the player has unlocked
+        // Reset the available upgrade list
+        availableUpgrades = new List<ShipUpgrade>();
+        
         foreach (string upgradeId in unlockedUpgrades)
         {
-
             ShipUpgrade upgrade = _upgradeManager.UpgradeData.Find(item => item.UpgradeId == upgradeId);
-
-            bool prereqsMet = true;
+            
+            bool allPrerequisitiesMet = true;
             bool isInstalled = _upgradeManager.InstalledUpgrades.Contains(upgradeId);
             
             // Do not show list item if prereqs are not met
-            foreach (string prereq in upgrade.Prerequisites)
+            foreach (string prerequisite in upgrade.Prerequisites)
             {
-                if (!_upgradeManager.InstalledUpgrades.Contains(prereq))
+                if (!_upgradeManager.InstalledUpgrades.Contains(prerequisite))
                 {
-                    prereqsMet = false;
+                    allPrerequisitiesMet = false;
                 }
             }
             
-            if (prereqsMet && !isInstalled)
+            if (allPrerequisitiesMet && !isInstalled)
             {
-                // Create button
-                GameObject clone = Instantiate(upgradeButton, Vector3.zero, Quaternion.identity);
-    
-                
-                // If player can afford the upgrade, enable the button
-                clone.GetComponent<Button>().interactable =
-                    upgrade.Cost <= pointCount && !_upgradeManager.InstalledUpgrades.Contains(upgradeId);
-    
-                clone.GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    _upgradeManager.PurchaseUpgrade(upgrade);
-                    // Re-render menu
-                    DeleteUpgradeMenuItems();
-                    CreateUpgradeMenuItems();
-                });
-                    
-                // Set button texts
-                Text[] buttonTexts = clone.GetComponentsInChildren<Text>();
-                buttonTexts[0].text = upgrade.Title;
-                buttonTexts[1].text = upgrade.Description;
-                buttonTexts[2].text = "Cost: " + upgrade.Cost + " bubbles";
-    
-                // Set object as the child of availableUpgradeView
-                clone.transform.SetParent(availableUpgradeView.transform, false);
+                availableUpgrades.Add(upgrade);
             }
-
-            if (prereqsMet && isInstalled)
-            {
-                // Create button
-                GameObject clone = Instantiate(installedUpgradeLabel, Vector3.zero, Quaternion.identity);
-
-                // Set button texts
-                Text[] buttonTexts = clone.GetComponentsInChildren<Text>();
-                buttonTexts[0].text = upgrade.Title;
+        }
+        
+        availableUpgradeCountIndicator.SetActive(availableUpgrades.Count > 0);
+        availableUpgradeCountLabel.text = availableUpgrades.Count.ToString();
+    }
     
-                // Set object as the child of installedUpgradeView
-                clone.transform.SetParent(installedUpgradeView.transform, false);
+    
+    
+    public void CreateUpgradeMenuItem()
+    {
+        // If _menuType happens to be "available"
+        ShipUpgrade thisUpgrade = new ShipUpgrade();
+        int count = 0;
+        
+        if (_menuType == "installed")
+        {
+            count = _upgradeManager.InstalledUpgrades.Count;
+            ShowHideNextPrevButtons(count);
+            
+            if (count == 0)
+            {
+                ShowNothingAvailable();
+                return;
             }
             
+            purchaseButton.SetActive(false);
+            string upgradeId = _upgradeManager.InstalledUpgrades[_currentUpgradeIndex];
+            thisUpgrade = _upgradeManager.UpgradeData.Find(item => item.UpgradeId == upgradeId);
+        }
+        if (_menuType == "available")
+        {
+            count = availableUpgrades.Count;
+            ShowHideNextPrevButtons(count);
+            
+            if (count == 0)
+            {
+                ShowNothingAvailable();
+                return;
+            }
+            
+            purchaseButton.SetActive(true);
+            thisUpgrade = availableUpgrades[_currentUpgradeIndex];
+        }
+
+        purchaseButton.GetComponent<Button>().interactable = pointCount >= thisUpgrade.Cost;
+        
+        availableUpgradeTitle.text = thisUpgrade.Title;
+        availableUpgradeDescription.text = thisUpgrade.Description;
+        availableUpgradeCost.text = "Cost: " + thisUpgrade.Cost + " bubbles";
+        
+        int upgradeNumber = Int32.Parse(thisUpgrade.UpgradeId.Split('_')[1]);
+        
+        switch (thisUpgrade.Modifier)
+        {
+            case "ship":
+                availableUpgradeImage.sprite = shipSprites[upgradeNumber];
+                break;
+            case "weapon":
+                availableUpgradeImage.sprite = weaponSprites[upgradeNumber];
+                break;
+            case "projectile":
+                availableUpgradeImage.sprite = projectileSprites[upgradeNumber];
+                break;
+            case "defense":
+                availableUpgradeImage.sprite = defenseSprites[upgradeNumber];
+                break;
         }
         
+        availableUpgradeImage.SetNativeSize();
     }
 
-    public void DeleteUpgradeMenuItems()
+    private void ShowNothingAvailable()
     {
-        foreach (Transform child in availableUpgradeView.transform) {
-            Destroy(child.gameObject);
+        availableUpgradeTitle.text = _menuType == "available" ? "No upgrades available" : "No upgrades installed";
+        availableUpgradeDescription.text = "";
+        availableUpgradeCost.text = "";
+        availableUpgradeImage.sprite = unavailableSprite;
+        availableUpgradeImage.SetNativeSize();
+        purchaseButton.SetActive(false);
+    }
+    
+    public void SelectUpgradeMenu(string type)
+    {
+        _menuType = type;
+        _currentUpgradeIndex = 0;
+        SetAvailableUpgradeData();
+        CreateUpgradeMenuItem();
+        availableUpgradeHeadline.text = _menuType == "available" ? "Available Upgrades" : "Installed Upgrades";
+    }
+
+    public void ShowHideNextPrevButtons(int count)
+    {
+        // Hide Next/Prev buttons if there is only 1 or no items to browse
+        if (count <= 1)
+        {
+            nextPrevButtons[0].SetActive(false);
+            nextPrevButtons[1].SetActive(false);
+        }
+        else
+        {
+            nextPrevButtons[0].SetActive(true);
+            nextPrevButtons[1].SetActive(true);
+        }
+    }
+    
+    public void PreviousUpgradeMenuItem()
+    {
+        int count = _menuType == "available" ? availableUpgrades.Count : _upgradeManager.InstalledUpgrades.Count;
+        
+        if (_currentUpgradeIndex == 0)
+        {
+            _currentUpgradeIndex = count - 1;
+        }
+        else
+        {
+            _currentUpgradeIndex--;
         }
         
-        foreach (Transform child in installedUpgradeView.transform) {
-            Destroy(child.gameObject);
+        CreateUpgradeMenuItem();
+    }
+    
+    public void NextUpgradeMenuItem()
+    {
+        int count = _menuType == "available" ? availableUpgrades.Count : _upgradeManager.InstalledUpgrades.Count;
+
+        if (_currentUpgradeIndex == count - 1)
+        {
+            _currentUpgradeIndex = 0;
         }
+        else
+        {
+            _currentUpgradeIndex++;
+        }
+        
+        CreateUpgradeMenuItem();
+    }
+
+    public void PurchaseUpgrade()
+    {
+        _upgradeManager.InstallUpgrade(availableUpgrades[_currentUpgradeIndex]);
+        SetAvailableUpgradeData();
+        PreviousUpgradeMenuItem();
     }
 
     public void AddPoints(int points)
@@ -168,6 +281,8 @@ public class GameEventHandler : MonoBehaviour
         if (_upgradeManager.InstalledUpgrades.Count != 0)
         {
             _upgradeManager.DeleteUpgrade();
+                
+            SetAvailableUpgradeData();
             
             pointCount -= points;
             pointLabel.text = pointCount.ToString();
@@ -180,8 +295,10 @@ public class GameEventHandler : MonoBehaviour
         StartCoroutine(MovePlayer(closestConqueredBubble));
         
         pointCount = 0;
+        pointLabel.text = pointCount.ToString();
     }
 
+    // Fire on "death"
     IEnumerator MovePlayer(Vector3 closestConqueredBubble)
     {
         while(true)
